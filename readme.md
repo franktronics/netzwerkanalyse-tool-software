@@ -1,5 +1,9 @@
-## Project
+# NETZWERKANALYSE TOOL SOFTWARE
 
-Description of the project
+## Clone the repository
 
-Hallo Wilson!
+```bash
+git@github.com:franktronics/netzwerkanalyse-Tool-software.git
+```
+
+## Install
