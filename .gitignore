@@ -1,1 +1,5 @@
 /venv
+
+# Editors files
+.idea
+.vscode
