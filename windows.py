@@ -1,34 +1,54 @@
 import socket
 import struct
+import sys
+import os
+
+
+def enable_promiscuous_mode(sock):
+    """Aktiviere Promiscuous-Modus für Windows."""
+    if os.name == 'nt':
+        sock.ioctl(socket.SIO_RCVALL, socket.RCVALL_ON)
+
+
+def disable_promiscuous_mode(sock):
+    """Deaktiviere Promiscuous-Modus für Windows."""
+    if os.name == 'nt':
+        sock.ioctl(socket.SIO_RCVALL, socket.RCVALL_OFF)
 
 
 def packet_sniffer():
-    # Erstelle einen Raw-Socket
-    sniffer = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_IP)
+    # Überprüfen, welches Betriebssystem genutzt wird
+    if os.name == 'nt':
+        # Windows: Raw-Socket für IPv4-Pakete
+        sniffer = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_IP)
+    else:
+        # Linux: Raw-Socket für Ethernet-Frames
+        sniffer = socket.socket(socket.AF_PACKET, socket.SOCK_RAW, socket.ntohs(0x0003))
 
-    # Binde den Socket an die lokale Schnittstelle
+    # Lokale Schnittstelle auswählen
     host = socket.gethostbyname(socket.gethostname())
-    sniffer.bind((host, 0))
 
-    # Socket so konfigurieren, dass die IP-Header erhalten bleiben
-    sniffer.setsockopt(socket.IPPROTO_IP, socket.IP_HDRINCL, 1)
+    # Für Windows: an die Schnittstelle binden
+    if os.name == 'nt':
+        sniffer.bind((host, 0))
+        # IP-Header einschließen
+        sniffer.setsockopt(socket.IPPROTO_IP, socket.IP_HDRINCL, 1)
+        # Promiscuous-Modus aktivieren
+        enable_promiscuous_mode(sniffer)
 
-    # Aktiviert den Promiscuous-Modus (nur unter Windows erforderlich)
-    sniffer.ioctl(socket.SIO_RCVALL, socket.RCVALL_ON)
+    print("[+] Sniffing gestartet. Drücken Sie Strg+C zum Beenden.")
 
     try:
-        print("Packet Sniffing startet. Drücken Sie Strg+C zum Beenden.")
         while True:
-            # Paket empfangen
             raw_data, _ = sniffer.recvfrom(65565)
             print(raw_data)
-
+            print("=" * 50)
     except KeyboardInterrupt:
-        print("\nPacket Sniffing gestoppt.")
-
+        print("\n[!] Sniffing gestoppt.")
     finally:
-        # Deaktiviert den Promiscuous-Modus
-        sniffer.ioctl(socket.SIO_RCVALL, socket.RCVALL_OFF)
+        # Promiscuous-Modus für Windows deaktivieren
+        if os.name == 'nt':
+            disable_promiscuous_mode(sniffer)
 
 
 if __name__ == "__main__":

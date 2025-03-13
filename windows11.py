@@ -6,7 +6,7 @@ def packet_sniffer():
     #Trennstring
     Trennstring=10*"="+10*"-"+10*"="
     # Erstelle einen Raw-Socket
-    sniffer = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.ntohs(0x0800))#socket.AF für IPV4 SOCK_RAW für rohe und IPPROTO für Verarbeitung auf IP Schicht
+    sniffer = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_IP)#socket.AF für IPV4 SOCK_RAW für rohe und IPPROTO für Verarbeitung auf IP Schicht
 
     # Binde den Socket an die lokale Schnittstelle
     host = socket.gethostbyname(socket.gethostname())
