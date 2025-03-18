@@ -1,4 +1,4 @@
-# NETZWERKANALYSE TOOL SOFTWARE
+# Netzwerkanalyse tool software
 
 ## Clone the repository
 
