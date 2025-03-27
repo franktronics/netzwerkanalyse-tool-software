@@ -1,5 +1,6 @@
 from utils.functions import os_detection, nic_detection
 from sockets import SocketInit
+from protocols import EthernetParser
 
 
 if __name__ == "__main__":
@@ -13,4 +14,5 @@ if __name__ == "__main__":
     if os_detected == "linux":
         selected_nic = input(f"Please select a NIC (example: {nics[0]}): ")
 
-    SocketInit(os_detected, selected_nic)
+    socket_obj = SocketInit(os_detected, selected_nic)
+    parser = EthernetParser(socket_obj)

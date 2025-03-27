@@ -17,14 +17,8 @@ class SocketInit:
             self.macos()
 
     def linux(self):
-        self.socket_obj = socket.socket(socket.PF_PACKET, socket.SOCK_RAW, socket.ntohs(0x0800))
+        self.socket_obj = socket.socket(socket.PF_PACKET, socket.SOCK_RAW, socket.ntohs(0x0003))
         self.socket_obj.bind((self.nic, 0))
-
-        #only for testing
-        while True:
-            packet = self.socket_obj.recv(65535)
-            print(packet)
-            print("===")
 
     def windows(self):
         self.socket_obj = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_IP)
@@ -33,22 +27,13 @@ class SocketInit:
         self.socket_obj.setsockopt(socket.IPPROTO_IP, socket.IP_HDRINCL, 1)
         self.socket_obj.ioctl(socket.SIO_RCVALL, socket.RCVALL_ON) # enable promiscuous mode
 
-        # only for testing
-        while True:
-            packet = self.socket_obj.recv(65535)
-            print(packet)
-            print("===")
-
     def macos(self):
         self.socket_obj = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_IP)
         host = socket.gethostbyname(socket.gethostname())
         self.socket_obj.bind((host, 0))
 
-        # only for testing
-        while True:
-            packet = self.socket_obj.recv(65535)
-            print(packet)
-            print("===")
+    def receive(self):
+        return self.socket_obj.recvfrom(65535)
 
     def close(self):
         if self.os_type == "windows":
