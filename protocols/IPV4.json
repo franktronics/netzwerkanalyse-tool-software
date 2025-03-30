@@ -1,0 +1,22 @@
+{
+  "IPv4_Header": {
+    "Version": {"offset": 0, "length": 4, "description": "IPv4-Version", "value": 4},
+    "IHL": {"offset": 4, "length": 4, "description": "Header-Länge", "value": 5},
+    "TOS": {"offset": 8, "length": 8, "description": "Type of Service", "value": "0x00"},
+    "Total_Length": {"offset": 16, "length": 16, "description": "Gesamtlänge des Pakets", "value": 80},
+    "Identification": {"offset": 32, "length": 16, "description": "Identifikation", "value": "0x1f40"},
+    "Flags": {"offset": 48, "length": 3, "description": "Flags", "value": {"Reserved": 0, "Don't_Fragment": 0, "More_Fragments": 1}},
+    "Fragment_Offset": {"offset": 51, "length": 13, "description": "Fragmentierungs-Offset", "value": 0},
+    "TTL": {"offset": 64, "length": 8, "description": "Time To Live", "value": 64},
+    "Protocol": {"offset": 72, "length": 8, "description": "Protokoll (z. B. TCP, UDP)", "value": {"Protocol_Number": 17, "Protocol_Name": "UDP"}},
+    "Header_Checksum": {"offset": 80, "length": 16, "description": "Prüfsumme des Headers", "value": "0xef47"},
+    "Source_IP": {"offset": 96, "length": 32, "description": "Quell-IP-Adresse", "value": "127.0.0.1"},
+    "Destination_IP": {"offset": 128, "length": 32, "description": "Ziel-IP-Adresse", "value": "127.0.0.5"}
+  },
+  "Transport_Layer": {
+    "UDP": {
+      "Source_Port": {"offset": 160, "length": 16, "description": "Quellport", "value": 157},
+      "Destination_Port": {"offset": 176, "length": 16, "description": "Zielport", "value": 80}
+    }
+  }
+}

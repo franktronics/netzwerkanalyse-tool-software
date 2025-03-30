@@ -1,0 +1,4 @@
+{
+  "name": "UDP",
+  "fields": ["source_port", "destination_port", "length", "checksum"]
+}
