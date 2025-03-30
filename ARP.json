@@ -1,0 +1,42 @@
+{
+    "protocol": "ARP",
+    "full_name": "Address Resolution Protocol",
+    "description": "Das Address Resolution Protocol (ARP) wird verwendet, um die MAC-Adresse eines Hosts anhand seiner IP-Adresse zu bestimmen. Es operiert auf Layer 2 des OSI-Modells.",
+    "operation": {
+      "request": {
+        "description": "Ein ARP-Request wird gesendet, um die MAC-Adresse eines bestimmten Hosts zu ermitteln.",
+        "packet_structure": {
+          "hardware_type": "Ethernet (1)",
+          "protocol_type": "IPv4 (0x0800)",
+          "hardware_size": 6,
+          "protocol_size": 4,
+          "opcode": 1,
+          "sender_mac": "MAC-Adresse des Absenders",
+          "sender_ip": "IP-Adresse des Absenders",
+          "target_mac": "00:00:00:00:00:00",
+          "target_ip": "IP-Adresse des Ziels"
+        }
+      },
+      "reply": {
+        "description": "Ein ARP-Reply wird gesendet, um auf einen ARP-Request zu antworten. Enthält die gesuchte MAC-Adresse.",
+        "packet_structure": {
+          "hardware_type": "Ethernet (1)",
+          "protocol_type": "IPv4 (0x0800)",
+          "hardware_size": 6,
+          "protocol_size": 4,
+          "opcode": 2,
+          "sender_mac": "Antwort-MAC-Adresse",
+          "sender_ip": "Antwort-IP-Adresse",
+          "target_mac": "MAC-Adresse des ursprünglichen Anfragenden",
+          "target_ip": "IP-Adresse des ursprünglichen Anfragenden"
+        }
+      }
+    },
+    "use_cases": [
+      "Ermitteln der MAC-Adresse eines Hosts im LAN",
+      "ARP-Spoofing zur Netzwerkmanipulation",
+      "ARP-Cache-Analyse für Netzwerksicherheit"
+    ],
+    "layer": "Data Link Layer (Layer 2)"
+  }
+  

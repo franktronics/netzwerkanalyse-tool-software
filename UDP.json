@@ -1,0 +1,23 @@
+{
+    "protocol": "UDP",
+    "full_name": "User Datagram Protocol",
+    "description": "UDP ist ein verbindungsloses Protokoll, das eine schnelle, aber nicht garantierte Datenübertragung ermöglicht. Es wird oft für Echtzeitanwendungen verwendet.",
+    "operation": {
+      "packet_structure": {
+        "source_port": "Port des sendenden Hosts",
+        "destination_port": "Port des empfangenden Hosts",
+        "length": "Gesamtlänge des UDP-Pakets",
+        "checksum": "Fehlererkennung für das Paket",
+        "data": "Die tatsächlichen Nutzdaten"
+      }
+    },
+    "use_cases": [
+      "Echtzeit-Kommunikation wie VoIP oder Videostreaming",
+      "DNS-Anfragen für schnelle Namensauflösung",
+      "Gaming-Protokolle für niedrige Latenzzeiten",
+      "DHCP für IP-Adressvergabe"
+    ],
+    "layer": "Transport Layer (Layer 4)"
+  }
+  
+  
