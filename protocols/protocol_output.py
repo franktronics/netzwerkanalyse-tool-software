@@ -14,7 +14,9 @@ def extract_field(data, offset, length):
     """Extrahiert ein Feld aus den binären Daten."""
     byte_offset = offset // 8
     bit_offset = offset % 8
-    field_bytes = data[byte_offset : byte_offset + (length + 7) // 8]
+    byte_length = (bit_offset + length + 7) // 8  # Rundet auf nächste volle Bytezahl auf
+
+    field_bytes = data[byte_offset : byte_offset + byte_length]
     value = int.from_bytes(field_bytes, byteorder="big")
 
     if bit_offset > 0 or length % 8 != 0:
@@ -22,7 +24,7 @@ def extract_field(data, offset, length):
 
     return value
 
-def analyze_ipv4_packet(packet, structure):
+def analyze_ipv4_paket(paket, structure):
     """Analysiert ein IPv4-Paket basierend auf der JSON-Beschreibung."""
     result = {}
 
@@ -39,7 +41,6 @@ def analyze_ipv4_packet(packet, structure):
         result[field] = value
 
     return result
-
 
 # Laden der Daten
 paket = lade_paket()
