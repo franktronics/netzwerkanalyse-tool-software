@@ -1,0 +1,7 @@
+{
+    "ICMP":{
+  "ICMP-Typ":{"offset":0, "length":4},
+  "ICMP-Code":{"offset":0, "length":4},
+  "ICMP-Check-Sum":{"offset":0, "length":4},
+  "ICMP-Daten":{"offset":0, "length":4}
+}}
