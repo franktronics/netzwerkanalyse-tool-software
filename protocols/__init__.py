@@ -1,1 +1,0 @@
-from .ethernet_parser import EthernetParser

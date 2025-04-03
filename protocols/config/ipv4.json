@@ -1,0 +1,134 @@
+{
+  "header": {
+    "version": {
+      "offset": 0,
+      "length": 4,
+      "description": "IPv4-Version"
+    },
+    "header_length": {
+      "offset": 4,
+      "length": 4,
+      "description": "Header Length"
+    },
+    "tos": {
+      "offset": 8,
+      "length": 8,
+      "description": "Type of Service"
+    },
+    "total_length": {
+      "offset": 16,
+      "length": 16,
+      "description": "Total Length"
+    },
+    "identification": {
+      "offset": 32,
+      "length": 16,
+      "description": "Identification"
+    },
+    "flags": {
+      "offset": 48,
+      "length": 3,
+      "description": "Flags"
+    },
+    "fragment_offset": {
+      "offset": 51,
+      "length": 13,
+      "description": "Fragment Offset"
+    },
+    "ttl": {
+      "offset": 64,
+      "length": 8,
+      "description": "Time to Live"
+    },
+    "protocol": {
+      "offset": 72,
+      "length": 8,
+      "description": "Protocol"
+    },
+    "header_checksum": {
+      "offset": 80,
+      "length": 16,
+      "description": "Header Checksum"
+    },
+    "source_ip": {
+      "offset": 96,
+      "length": 32,
+      "description": "Source IP",
+      "type": "ip"
+    },
+    "destination_ip": {
+      "offset": 128,
+      "length": 32,
+      "description": "Destination IP",
+      "type": "ip"
+    }
+  },
+  "data": {
+    "icmp_type": {
+      "condition": "self.header.protocol.value==1",
+      "offset": 0,
+      "length": 8,
+      "description": "ICMP Type"
+    },
+    "icmp_code": {
+      "condition": "self.header.protocol.value==1",
+      "offset": 8,
+      "length": 8,
+      "description": "ICMP Code"
+    },
+    "icmp_checksum": {
+      "condition": "self.header.protocol.value==1",
+      "offset": 16,
+      "length": 16,
+      "description": "ICMP Checksum"
+    },
+    "source_port": {
+      "condition": "self.header.protocol.value in [6, 17]",
+      "offset": 0,
+      "length": 16,
+      "description": "TCP/UDP Source Port"
+    },
+    "destination_port": {
+      "condition": "self.header.protocol.value in [6, 17]",
+      "offset": 16,
+      "length": 16,
+      "description": "TCP/UDP Destination Port"
+    },
+    "tcp_sequence": {
+      "condition": "self.header.protocol.value==6",
+      "offset": 32,
+      "length": 32,
+      "description": "TCP Sequence Number"
+    },
+    "tcp_ack": {
+      "condition": "self.header.protocol.value==6",
+      "offset": 64,
+      "length": 32,
+      "description": "TCP Acknowledgment Number"
+    },
+    "tcp_header_length": {
+      "condition": "self.header.protocol.value==6",
+      "offset": 96,
+      "length": 4,
+      "description": "TCP Header Length"
+    },
+    "tcp_flags": {
+      "condition": "self.header.protocol.value==6",
+      "offset": 104,
+      "length": 8,
+      "description": "TCP Flags"
+    },
+    "udp_length": {
+      "condition": "self.header.protocol.value==17",
+      "offset": 32,
+      "length": 16,
+      "description": "UDP Length"
+    },
+    "udp_checksum": {
+      "condition": "self.header.protocol.value==17",
+      "offset": 48,
+      "length": 16,
+      "description": "UDP Checksum"
+    }
+  }
+}

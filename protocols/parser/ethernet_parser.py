@@ -1,7 +1,6 @@
 from sockets import SocketInit
 import time
-from utils.variables import ETHERNET_TYPES
-from .ipv4_parser import IPV4Parser
+from .payload_parser import PayloadParser
 import json
 
 class EthernetParser:
@@ -18,13 +17,12 @@ class EthernetParser:
             raw_data, addr = self.socket_obj.receive()
             header_parsed, payload = self.parser(raw_data)
 
-            print(raw_data)
-            print("-----------")
             print(header_parsed)
 
             match header_parsed["ether_type"]:
                 case '0800':
-                    payload_parsed = IPV4Parser.parse(payload = payload)
+                    payload_parser = PayloadParser(payload, structure_file="protocols/config/ipv4.json")
+                    payload_parsed = payload_parser.get_info(detailed=False)
                     print(json.dumps(payload_parsed, indent=4, ensure_ascii=False))
                 case _:
                     print("Ethernet type not supported")

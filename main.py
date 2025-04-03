@@ -1,6 +1,6 @@
 from utils.functions import os_detection, nic_detection
 from sockets import SocketInit
-from protocols import EthernetParser
+from protocols.parser import EthernetParser
 
 
 if __name__ == "__main__":
