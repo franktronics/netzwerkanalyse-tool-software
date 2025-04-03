@@ -1,8 +1,8 @@
 import json
 
-def lade_paket():
+def lade_paket(txt_Datei):
     """Lädt das Paket und wandelt den Hex-String in Binärdaten um."""
-    with open("paketHex.txt", "r") as file:
+    with open(txt_Datei, "r") as file:
         hex_data = file.read().strip().replace(" ", "")
     
     # Hex-String zu Bytes umwandeln
@@ -49,6 +49,6 @@ def analyse_ipv4_paket(paket, struktur):
     return result
 
 # Hauptprogramm
-paket = lade_paket()
+paket = lade_paket("paketHex.txt")
 ipv4_struktur = load_ipv4_structure("IPv4.json") 
 analysis = analyse_ipv4_paket(paket, ipv4_struktur)
