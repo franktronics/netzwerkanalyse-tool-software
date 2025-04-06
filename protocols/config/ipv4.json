@@ -1,4 +1,5 @@
 {
+  "name": "IPv4 Header",
   "header": {
     "version": {
       "offset": 0,
@@ -63,72 +64,19 @@
       "type": "ip"
     }
   },
-  "data": {
-    "icmp_type": {
-      "condition": "self.header.protocol.value==1",
-      "offset": 0,
-      "length": 8,
-      "description": "ICMP Type"
-    },
-    "icmp_code": {
-      "condition": "self.header.protocol.value==1",
-      "offset": 8,
-      "length": 8,
-      "description": "ICMP Code"
-    },
-    "icmp_checksum": {
-      "condition": "self.header.protocol.value==1",
-      "offset": 16,
-      "length": 16,
-      "description": "ICMP Checksum"
-    },
-    "source_port": {
-      "condition": "self.header.protocol.value in [6, 17]",
-      "offset": 0,
-      "length": 16,
-      "description": "TCP/UDP Source Port"
-    },
-    "destination_port": {
-      "condition": "self.header.protocol.value in [6, 17]",
-      "offset": 16,
-      "length": 16,
-      "description": "TCP/UDP Destination Port"
-    },
-    "tcp_sequence": {
-      "condition": "self.header.protocol.value==6",
-      "offset": 32,
-      "length": 32,
-      "description": "TCP Sequence Number"
-    },
-    "tcp_ack": {
-      "condition": "self.header.protocol.value==6",
-      "offset": 64,
-      "length": 32,
-      "description": "TCP Acknowledgment Number"
-    },
-    "tcp_header_length": {
-      "condition": "self.header.protocol.value==6",
-      "offset": 96,
-      "length": 4,
-      "description": "TCP Header Length"
-    },
-    "tcp_flags": {
-      "condition": "self.header.protocol.value==6",
-      "offset": 104,
-      "length": 8,
-      "description": "TCP Flags"
-    },
-    "udp_length": {
-      "condition": "self.header.protocol.value==17",
-      "offset": 32,
-      "length": 16,
-      "description": "UDP Length"
-    },
-    "udp_checksum": {
-      "condition": "self.header.protocol.value==17",
-      "offset": 48,
-      "length": 16,
-      "description": "UDP Checksum"
+  "next_protocol": {
+    "selector": "protocol",
+    "start_after": "calculate: header_length * 4",
+    "mappings": {
+      "1": {
+        "file": "icmp.json"
+      },
+      "6": {
+        "file": "tcp.json"
+      },
+      "17": {
+        "file": "udp.json"
+      }
     }
   }
 }

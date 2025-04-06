@@ -49,6 +49,6 @@ def analyse_ipv4_paket(paket, struktur):
     return result
 
 # Hauptprogramm
-paket = lade_paket("paketHex.txt")
-ipv4_struktur = load_ipv4_structure("IPv4.json") 
+paket = lade_paket("examples/json_parser/paketHex.txt")
+ipv4_struktur = load_ipv4_structure("examples/json_parser/IPv4.json")
 analysis = analyse_ipv4_paket(paket, ipv4_struktur)

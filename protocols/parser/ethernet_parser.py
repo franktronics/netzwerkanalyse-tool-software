@@ -1,6 +1,6 @@
 from sockets import SocketInit
 import time
-from .payload_parser import PayloadParser
+from .protocol_parser import ProtocolParser
 import json
 
 class EthernetParser:
@@ -16,14 +16,19 @@ class EthernetParser:
                 break
             raw_data, addr = self.socket_obj.receive()
             header_parsed, payload = self.parser(raw_data)
+            print(raw_data)
 
             print(header_parsed)
 
             match header_parsed["ether_type"]:
-                case '0800':
-                    payload_parser = PayloadParser(payload, structure_file="protocols/config/ipv4.json")
-                    payload_parsed = payload_parser.get_info(detailed=False)
-                    print(json.dumps(payload_parsed, indent=4, ensure_ascii=False))
+                case '0800': # IPv4
+                    payload_parser = ProtocolParser(payload, structure_file="protocols/config/ipv4.json")
+                    payload_parsed = payload_parser.parse()
+                    print(json.dumps(payload_parsed, indent=2, ensure_ascii=False))
+                case '0806':  # ARP
+                    payload_parser = ProtocolParser(payload, structure_file="protocols/config/arp.json")
+                    payload_parsed = payload_parser.parse()
+                    print(json.dumps(payload_parsed, indent=2, ensure_ascii=False))
                 case _:
                     print("Ethernet type not supported")
             print("=====================================")
@@ -36,7 +41,8 @@ class EthernetParser:
 
     # 2. Payload (variable length)
     #    - Can be IP packet, ARP, etc.
-    def parser(self, packet: bytes):
+    @classmethod
+    def parser(cls, packet: bytes):
         dest_mac = packet[0:6]
         src_mac = packet[6:12]
         ether_type = packet[12:14]

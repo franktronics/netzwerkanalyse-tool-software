@@ -2,7 +2,7 @@ import json
 
 def lade_paket():
     """Lädt das Paket und wandelt den Hex-String in Binärdaten um."""
-    with open("paketByte.txt", "r") as file:
+    with open("examples/json_parser/paketByte.txt", "r") as file:
         byte_data = file.read().strip()
     
 
@@ -49,5 +49,5 @@ def analyse_ipv4_paket(paket, struktur):
 
 # Hauptprogramm
 paket = lade_paket()
-ipv4_struktur = load_ipv4_structure("IPv4.json") 
+ipv4_struktur = load_ipv4_structure("examples/json_parser/IPv4.json")
 analysis = analyse_ipv4_paket(paket, ipv4_struktur)
