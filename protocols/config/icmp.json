@@ -1,9 +1,25 @@
 {
-  "ICMP": {
-    "Typ":              { "offset": 160, "length": 8,  "description": "ICMP-Typ (z.B. 8 = Echo Request)" },
-    "Code":             { "offset": 168, "length": 8,  "description": "ICMP-Code (z.B. 0 = Echo Request)" },
-    "Checksum":        { "offset": 176, "length": 16, "description": "ICMP-Prüfsumme" },
-    "Rest_Header":      { "offset": 192, "length": 32, "description": "Weitere Felder (z.B. ID & Sequenznummer)" },
-    "Data":        { "offset": 224, "length": "variabel", "description": "ICMP-Daten (Payload)" }
+  "name": "ICMP Protocol",
+  "header": {
+    "type": {
+      "offset": 0,
+      "length": 8,
+      "description": "ICMP Type"
+    },
+    "code": {
+      "offset": 8,
+      "length": 8,
+      "description": "ICMP Code"
+    },
+    "checksum": {
+      "offset": 16,
+      "length": 16,
+      "description": "Checksum"
+    },
+    "rest_of_header": {
+      "offset": 32,
+      "length": 32,
+      "description": "Rest of Header"
+    }
   }
 }

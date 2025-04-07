@@ -1,4 +1,0 @@
-{
-  "name": "ARP",
-  "fields": ["opcode", "sender_mac", "sender_ip", "target_ip"]
-}

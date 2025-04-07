@@ -1,8 +1,0 @@
-{
-  "UDP":{
-  "Quell-Port":{"offset":0, "length":4},
-  "Ziel-Port":{"offset":0, "length":4},
-  "Laenge":{"offset":0, "length":4},
-  "Check-Sum":{"offset":0, "length":4}
-}
-}
