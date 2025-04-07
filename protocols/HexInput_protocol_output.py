@@ -30,8 +30,8 @@ def extract_field(Daten, Offset, Laenge):
 
     return Erg
 
-def analyse_ipv4_paket(paket, struktur):
-    #Analysiert ein IPv4-Paket basierend auf der JSON-Beschreibung.
+def analyse_paket(paket, struktur):
+    #Analysiert ein Paket basierend auf der JSON-Struktur.
     result = {}
     print("\nPaket Analyse:")
     for section, fields in struktur.items():
@@ -50,5 +50,5 @@ def analyse_ipv4_paket(paket, struktur):
 
 # Hauptprogramm
 paket = lade_paket("paketHex.txt")
-ipv4_struktur = load_ipv4_structure("IPv4.json") 
-analysis = analyse_ipv4_paket(paket, ipv4_struktur)
+ipv4_struktur = load_ipv4_structure("IPv4_model.json") 
+analysis = analyse_paket(paket, ipv4_struktur)

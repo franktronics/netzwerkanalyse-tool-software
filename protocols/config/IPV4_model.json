@@ -1,16 +1,16 @@
 {
   "IPv4_Header": {
-    "Version":        {"offset": 0, "length": 4, "description": "IPv4-Version"},
-    "IHL":            {"offset": 4, "length": 4, "description": "Header-Länge"},
-    "TOS":            {"offset": 8, "length": 8, "description": "Type of Service"},
-    "Total_Length":   {"offset": 16, "length": 16, "description": "Gesamtlänge des Pakets"},
-    "Identification": {"offset": 32, "length": 16, "description": "Identifikation"},
-    "Flags":          {"offset": 48, "length": 3, "description": "Flags"},
-    "Fragment_Offset":{"offset": 51, "length": 13, "description": "Fragmentierungs-Offset"},
-    "TTL":            {"offset": 64, "length": 8, "description": "Time To Live"},
-    "Protocol":       {"offset": 72, "length": 8, "description": "Protokoll (z. B. TCP, UDP)"},
-    "Header_Checksum":{"offset": 80, "length": 16, "description": "Prüfsumme des Headers"},
-    "Source_IP":      {"offset": 96, "length": 32, "description": "Quell-IP-Adresse"},
+    "Version":        {"offset": 0,   "length": 4,  "description": "IPv4-Version"},
+    "IHL":            {"offset": 4,   "length": 4,  "description": "Header-Länge - Wert mal 4 ist Header Laenge in Byte"},
+    "TOS":            {"offset": 8,   "length": 8,  "description": "Type of Service"},
+    "Total_Length":   {"offset": 16,  "length": 16, "description": "Gesamtlänge des Pakets"},
+    "Identification": {"offset": 32,  "length": 16, "description": "Identifikation"},
+    "Flags":          {"offset": 48,  "length": 3,  "description": "Flags"},
+    "Fragment_Offset":{"offset": 51,  "length": 13, "description": "Fragmentierungs-Offset"},
+    "TTL":            {"offset": 64,  "length": 8,  "description": "Time To Live"},
+    "Protocol":       {"offset": 72,  "length": 8,  "description": "Protokoll (z. B. TCP, UDP)"},
+    "Header_Checksum":{"offset": 80,  "length": 16, "description": "Prüfsumme des Headers"},
+    "Source_IP":      {"offset": 96,  "length": 32, "description": "Quell-IP-Adresse"},
     "Destination_IP": {"offset": 128, "length": 32, "description": "Ziel-IP-Adresse"}
   }
 }
