@@ -7,5 +7,6 @@
         "Oktett_3": {"offset": 16, "length": 8, "beschreibung": "Drittes Oktett"},
         "Oktett_4": {"offset": 24, "length": 8, "beschreibung": "Viertes Oktett (z. B. 1)"
         }
-      }    }
+      }    
+    }
   }

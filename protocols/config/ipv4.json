@@ -9,7 +9,7 @@
     "header_length": {
       "offset": 4,
       "length": 4,
-      "description": "Header Length"
+      "description": "Header Length * 4 is Byte Length"
     },
     "tos": {
       "offset": 8,
@@ -55,13 +55,25 @@
       "offset": 96,
       "length": 32,
       "description": "Source IP",
-      "type": "ip"
+      "type": "ip",
+      "octets": [
+        {"offset": 96, "length": 8, "description": "First Octet"},
+        {"offset": 104, "length": 8, "description": "Second Octet"},
+        {"offset": 112, "length": 8, "description": "Third Octet"},
+        {"offset": 120, "length": 8, "description": "Fourth Octet"}
+      ]
     },
     "destination_ip": {
       "offset": 128,
       "length": 32,
       "description": "Destination IP",
-      "type": "ip"
+      "type": "ip",
+      "octets": [
+        {"offset": 128, "length": 8, "description": "First Octet"},
+        {"offset": 136, "length": 8, "description": "Second Octet"},
+        {"offset": 144, "length": 8, "description": "Third Octet"},
+        {"offset": 152, "length": 8, "description": "Fourth Octet"}
+      ]
     }
   },
   "next_protocol": {
