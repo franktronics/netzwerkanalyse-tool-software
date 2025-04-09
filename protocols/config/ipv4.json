@@ -5,7 +5,7 @@
       "offset": 0,
       "length": 4,
       "description": "IPv4-Version",
-      "type": "version"
+      "type": ""
     },
     "header_length": {
       "offset": 4,

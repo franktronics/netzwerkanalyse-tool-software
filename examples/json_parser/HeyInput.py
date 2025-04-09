@@ -21,21 +21,23 @@ def load_struktur(json_file):
 
 
 
-def analyse_paket(paket, struktur):
+def analyse_paket(paket, struktur, type):
     #Analysiert ein IPv4-Paket basierend auf der JSON-Beschreibung.
     result = {}
     print("\nPaket Analyse:")
     for section, fields in struktur.items():
         print(f"=== {section} ===")
         for field, attributes in fields.items():
-            bin_str=paket[attributes['offset']:attributes['offset']+attributes['length']]
-            zahl = int(bin_str, 2)
-            print(f"{field}: {zahl} in Binär {bin_str}")
+            for types in type.items():
+                bin_str=paket[attributes['offset']:attributes['offset']+attributes['length']]
+                zahl = int(bin_str, 2)
+                print(f"{field}: {zahl} in Binär {bin_str}")
            
 
     return result
 
 # Hauptprogramm
-paket = lade_paket("examples/json_parser/paketHex.txt")
+paket = lade_paket("paketHex.txt")
 ipv4_struktur = load_struktur("protocols/config/ipv4.json")
-analysis = analyse_paket(paket, ipv4_struktur)
+type_data = load_struktur("protocols/config/type.json")
+analysis = analyse_paket(paket, ipv4_struktur, type_data)
