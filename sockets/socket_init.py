@@ -5,7 +5,7 @@ class SocketInit:
     def __init__(self, os_type: OsType, nic: str):
         self.os_type = os_type
         self.nic = nic
-        self.socket_obj: type[socket.socket] = None
+        self.socket_obj: type[socket.socket] | None = None
 
         if os_type == "unknown":
             raise ValueError("Unknown operating system")
