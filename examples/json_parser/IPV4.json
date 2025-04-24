@@ -1,16 +1,26 @@
 {
-  "IPv4_Header": {
-    "Version":        {"offset": 0,   "length": 4,  "description": "IPv4-Version"},
-    "IHL":            {"offset": 4,   "length": 4,  "description": "Header-Länge - Wert mal 4 ist Header Laenge in Byte"},
-    "TOS":            {"offset": 8,   "length": 8,  "description": "Type of Service"},
-    "Total_Length":   {"offset": 16,  "length": 16, "description": "Gesamtlänge des Pakets"},
-    "Identification": {"offset": 32,  "length": 16, "description": "Identifikation"},
-    "Flags":          {"offset": 48,  "length": 3,  "description": "Flags"},
-    "Fragment_Offset":{"offset": 51,  "length": 13, "description": "Fragmentierungs-Offset"},
-    "TTL":            {"offset": 64,  "length": 8,  "description": "Time To Live"},
-    "Protocol":       {"offset": 72,  "length": 8,  "description": "Protokoll (z. B. TCP, UDP)"},
-    "Header_Checksum":{"offset": 80,  "length": 16, "description": "Prüfsumme des Headers"},
-    "Source_IP":      {"offset": 96,  "length": 32, "description": "Quell-IP-Adresse"},
-    "Destination_IP": {"offset": 128, "length": 32, "description": "Ziel-IP-Adresse"}
+  "name": "IPv4 Header",
+  "header": {
+    "version":        {"offset": 0,   "length": 4,  "type": "",     "description": "IPv4-Version"},
+    "header_length":  {"offset": 4,   "length": 4,  "type": "",     "description": "Header Length * 4 is Byte Length"},
+    "tos":            {"offset": 8,   "length": 8,  "type": "",     "description": "Type of Service"},
+    "total_length":   {"offset": 16,  "length": 16, "type": "",     "description": "Total Length"},
+    "identification": {"offset": 32,  "length": 16, "type": "",     "description": "Identification"},
+    "flags":          {"offset": 48,  "length": 3,  "type": "",     "description": "Flags"},
+    "fragment_offset":{"offset": 51,  "length": 13, "type": "",     "description": "Fragment Offset"},
+    "ttl":            {"offset": 64,  "length": 8,  "type": "",     "description": "Time to Live"},
+    "protocol":       {"offset": 72,  "length": 8,  "type": "",     "description": "Protocol"},
+    "header_checksum":{"offset": 80,  "length": 16, "type": "",     "description": "Header Checksum"},
+    "source_ip":      {"offset": 96,  "length": 32, "type": "ip4",  "description": "Source IP"},
+    "destination_ip": {"offset": 128, "length": 32, "type": "ip4",  "description": "Destination IP"}
+  },
+  "next_protocol": {
+    "selector": "protocol",
+    "start_after": "calculate: header_length * 4",
+    "mappings": {
+      "1":  {"file": "icmp.json"},
+      "6":  {"file": "tcp.json"},
+      "17": {"file": "udp.json"}
+    }
   }
 }
