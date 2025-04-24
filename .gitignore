@@ -9,3 +9,5 @@ __pycache__/
 
 #db file
 *.db
+*.db-shm
+*.db-wal

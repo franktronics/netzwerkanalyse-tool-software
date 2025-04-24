@@ -76,7 +76,7 @@
   },
   "next_protocol": {
     "selector": "protocol",
-    "start_after": "calculate: header_length * 4",
+    "start_after": "calculate: header_length * 4 * 8",
     "mappings": {
       "1": {
         "file": "icmp.json"

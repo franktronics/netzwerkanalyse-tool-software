@@ -1,6 +1,6 @@
 from utils.functions import os_detection, nic_detection
 from sockets import SocketInit, SocketReader
-from protocols.parser import EthernetParser
+from protocols.parser import ProtocolParser
 
 
 if __name__ == "__main__":
@@ -15,7 +15,7 @@ if __name__ == "__main__":
         selected_nic = input(f"Please select a NIC (example: {nics[0]}): ")
 
     socket_obj = SocketInit(os_detected, selected_nic)
-    ethernet_parser = EthernetParser()
-    socket_reader = SocketReader(socket_obj=socket_obj, reader=ethernet_parser.run)
+    parser = ProtocolParser(entry_file="protocols/config/ethernet.json")
+    socket_reader = SocketReader(socket_obj=socket_obj, parser_fct=parser.parse)
 
     socket_reader.run()
