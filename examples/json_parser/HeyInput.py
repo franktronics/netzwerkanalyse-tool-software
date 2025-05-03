@@ -29,16 +29,19 @@ def format_by_type(type_name, bit_string, types_definitions):
     if type_name not in types_definitions:
         return int(bit_string, 2)
 
-    # Sonderbehandlung für IPv4-Adressen
+    type_def = types_definitions[type_name]  # Typdefinition abrufen
+    separator = type_def.get("Seperate", ".")  # Standard: Punkt als Trenner
+    structure = type_def.get("Structure", {})  # Strukturdefinition abrufen
+
+    # Beispielhafte Behandlung für IPv4-Adressen
     if type_name == "ip4":
         ip_parts = []
-        struktur = types_definitions["ip4"]["Struktur"]
-        for _, feld in struktur.items():
-            offset = feld["offset"]
-            length = feld["length"]
+        for _, field in structure.items():
+            offset = field["offset"]
+            length = field["length"]
             part = bit_string[offset:offset + length]
             ip_parts.append(str(int(part, 2)))
-        return ".".join(ip_parts)
+        return separator.join(ip_parts)
 
     # Weitere Typen (z. B. MAC, IPv6) können hier ergänzt werden
     return bit_string
