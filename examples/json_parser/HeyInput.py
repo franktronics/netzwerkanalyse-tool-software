@@ -32,19 +32,19 @@ def format_by_type(type_name, bit_string, types_definitions):
     type_def = types_definitions[type_name]  # Typdefinition abrufen
     separator = type_def.get("Seperate", ".")  # Standard: Punkt als Trenner
     structure = type_def.get("Structure", {})  # Strukturdefinition abrufen
-    ip_parts = []
-
-    # Beispielhafte Behandlung für IPv4-Adressen
-
+    vision = type_def.get("Vison", "def")  # Standard: Punkt als Trenner
+    parts = []
+    
     for _, field in structure.items():
         offset = field["offset"]
         length = field["length"]
-        part = bit_string[offset:offset + length]
-        ip_parts.append(str(int(part, 2)))
-    return separator.join(ip_parts)
-
-    # Weitere Typen (z. B. MAC, IPv6) können hier ergänzt werden
-    return bit_string
+        part_bits = bit_string[offset:offset + length]
+        if vision == "bin":
+            parts.append(str(int(part_bits, 2)))
+        elif vision == "hex":
+            parts.append(f"{int(part_bits, 2):x}")
+        
+    return separator.join(parts)
 
 def analyze_packet(packet, structure_data, type_definitions, base_offset=0):
     # Analysiert ein Netzwerkpaket gemäß der geladenen Protokollstruktur

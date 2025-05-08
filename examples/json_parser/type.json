@@ -2,6 +2,7 @@
     "ip4": {
       "Explaination": "Eine IPv4-Adresse besteht aus 4 Oktetten (je 8 Bit), insgesamt 32 Bit.",
       "Seperate": "-",
+      "Vison": "bin",
       "Structure": {
         "Octet_1": {"offset": 0, "length": 8, "beschreibung": "Erstes Oktett der IP-Adresse"},
         "Octet_2": {"offset": 8, "length": 8, "beschreibung": "Zweites Oktett"},
@@ -9,5 +10,20 @@
         "Octet_4": {"offset": 24, "length": 8, "beschreibung": "Viertes Oktett (z. B. 1)"
         }
       }    
-    }
-  }
+    },
+    "ip6": {
+      "Explaination": "Eine IPv6-Adresse besteht aus 8 Gruppen mit je 16 Bit.",
+      "Seperate": ":",
+      "Vison": "hex",
+      "Structure": {
+        "Block_1": {"offset": 0, "length": 16},
+        "Block_2": {"offset": 16, "length": 16},
+        "Block_3": {"offset": 32, "length": 16},
+        "Block_4": {"offset": 48, "length": 16},
+        "Block_5": {"offset": 64, "length": 16},
+        "Block_6": {"offset": 80, "length": 16},
+        "Block_7": {"offset": 96, "length": 16},
+        "Block_8": {"offset": 112, "length": 16}
+        }
+      }
+}
