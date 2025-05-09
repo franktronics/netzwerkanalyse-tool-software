@@ -39,7 +39,7 @@ def format_by_type(type_name, bit_string, types_definitions):
         offset = field["offset"]
         length = field["length"]
         part_bits = bit_string[offset:offset + length]
-        if vision == "bin":
+        if vision == "dec":
             parts.append(str(int(part_bits, 2)))
         elif vision == "hex":
             parts.append(f"{int(part_bits, 2):x}")

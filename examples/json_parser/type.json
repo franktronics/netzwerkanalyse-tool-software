@@ -1,8 +1,8 @@
 {
     "ip4": {
       "Explaination": "Eine IPv4-Adresse besteht aus 4 Oktetten (je 8 Bit), insgesamt 32 Bit.",
-      "Seperate": "-",
-      "Vison": "bin",
+      "Seperate": ".",
+      "Vison": "dec",
       "Structure": {
         "Octet_1": {"offset": 0, "length": 8, "beschreibung": "Erstes Oktett der IP-Adresse"},
         "Octet_2": {"offset": 8, "length": 8, "beschreibung": "Zweites Oktett"},
