@@ -1,11 +1,21 @@
-from typing import Tuple
+from dataclasses import dataclass
+from typing import Dict, Optional, Any, Tuple
 
-class ParserHelper:
-    def __init__(self):
-        pass
+@dataclass
+class FieldDefinition:
+    offset: int
+    length: int
+    description: str
 
-    @staticmethod
-    def extract_bits(raw_data: bytes, start_bit: int, num_bits: int, base_offset: int = 0) -> int:
+@dataclass
+class ProtocolDefinition:
+    name: str
+    fields: Dict[str, FieldDefinition]
+    next_protocol: Optional[Dict[str, Any]] = None
+
+@dataclass
+class ParserModel:
+    def extract_bits(self, raw_data: bytes, start_bit: int, num_bits: int, base_offset: int = 0) -> int:
         """
         Extract a specific number of bits from raw data starting from a given bit position.
         """
@@ -24,8 +34,7 @@ class ParserHelper:
         mask = (1 << num_bits) - 1
         return value & mask
 
-    @staticmethod
-    def evaluate_expression(expression: str | int, context) -> int:
+    def evaluate_expression(self, expression: str | int, context) -> int:
         """
         Evaluate a mathematical expression or return an integer.
         """
@@ -41,8 +50,7 @@ class ParserHelper:
         calc = expression[10:].strip()
         return eval(calc, {}, context)
 
-    @staticmethod
-    def get_mac_adress(raw_data: bytes) -> Tuple[str, str]:
+    def get_mac_adress(self, raw_data: bytes) -> Tuple[str, str]:
         """
         get source and destination mac address from raw data
         this will be used as primary key for the packet in the database

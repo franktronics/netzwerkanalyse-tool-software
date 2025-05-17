@@ -1,27 +1,15 @@
-from dataclasses import dataclass
-from typing import Dict, Optional, Any, ClassVar, Tuple
+from typing import Dict, Any, ClassVar, Tuple
 import json
 import os
-from utils.functions import ParserHelper, TypeConverter
-
-@dataclass
-class FieldDefinition:
-    offset: int
-    length: int
-    description: str
+from utils.functions import TypeConverter
+from ..models import ParserModel, FieldDefinition, ProtocolDefinition
 
 
-@dataclass
-class ProtocolDefinition:
-    name: str
-    fields: Dict[str, FieldDefinition]
-    next_protocol: Optional[Dict[str, Any]] = None
-
-
-class ProtocolParser:
+class ParserService(ParserModel):
     _protocol_cache: ClassVar[Dict[str, ProtocolDefinition]] = {}
 
     def __init__(self, entry_file: str):
+        super().__init__()
         self._base_file = entry_file
         self._entry_file = entry_file
         self._actual_protocol = None
@@ -61,7 +49,7 @@ class ProtocolParser:
             return None, 0
 
         next_proto = self._actual_protocol.next_protocol
-        start_after = ParserHelper.evaluate_expression(next_proto["start_after"], self._parsed_values)
+        start_after = self.evaluate_expression(next_proto["start_after"], self._parsed_values)
 
         current_dir = os.path.dirname(os.path.abspath(self._entry_file))
 
@@ -81,7 +69,7 @@ class ProtocolParser:
         result = {self._actual_protocol.name: {}}
 
         for field_name, field_def in self._actual_protocol.fields.items():
-            value = ParserHelper.extract_bits(raw_data, field_def.offset, field_def.length, base_offset)
+            value = self.extract_bits(raw_data, field_def.offset, field_def.length, base_offset)
             self._parsed_values[field_name] = value
 
             #2130706433, 2130706485,
@@ -103,7 +91,7 @@ class ProtocolParser:
 
         result = {}
 
-        src_mac, dest_mac = ParserHelper.get_mac_adress(raw_data)
+        src_mac, dest_mac = self.get_mac_adress(raw_data)
         result["mac"] = {
             "src": src_mac,
             "dst": dest_mac
