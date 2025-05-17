@@ -1,0 +1,23 @@
+{
+  "name": "Ethernet II Header",
+  "header": {
+    "destination_mac": {"offset": 0, "length": 48, "type": "mac", "description": "Ziel-MAC-Adresse (48 Bit)"},
+    "source_mac": {"offset": 48, "length": 48, "type": "mac", "description": "Quell-MAC-Adresse (48 Bit)"},
+    "ethertype": {"offset": 96, "length": 16, "type": "", "description": "Ethertype zur Protokollbestimmung (z. B. 0x0800 = IPv4)"}
+  },
+  "next_protocol": {
+    "selector": "ethertype",
+    "start_after": "calculate: 14",
+    "mappings": {
+      "2048": {
+        "file": "ipv4.json"
+      },
+      "2054": {
+        "file": "arp.json"
+      },
+      "34525": {
+        "file": "ipv6.json"
+      }
+    }
+  }
+}
