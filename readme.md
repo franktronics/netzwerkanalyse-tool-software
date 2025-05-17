@@ -29,3 +29,12 @@ Administrator privileges are required to run the software.
 ```bash
 sudo python main.py
 ```
+
+## Functions
+- Start
+- Stop
+- DataExport (raw data)
+- DataImport (raw data)
+
+# Database
+- Tabelle für 
