@@ -92,8 +92,8 @@ def analyze_packet(packet, structure_data, type_definitions, base_offset=0):
 
 # === Hauptprogramm ===
 packet_bits=load_packet("paketHex.txt")
-
-ipv4_structure = load_structure("ipv4.json")        # Lädt die Hauptstruktur (z. B. IPv4)
+print(packet_bits)
+ipv4_structure = load_structure("ether.json")        # Lädt die Hauptstruktur (z. B. IPv4)
 type_definitions = load_structure("type.json")      # Lädt die Typendefinitionen (z. B. ip4, etc.)
 
 result = analyze_packet(packet_bits, ipv4_structure, type_definitions)

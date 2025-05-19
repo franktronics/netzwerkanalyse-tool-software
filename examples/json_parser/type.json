@@ -25,5 +25,18 @@
         "Block_7": {"offset": 96, "length": 16},
         "Block_8": {"offset": 112, "length": 16}
         }
-      }
+      },
+      "mac": {
+  "Explaination": "MAC-Adresse besteht aus 6 Bytes = 48 Bit.",
+  "Seperate": ":",
+  "Vison": "hex",
+  "Structure": {
+    "Byte_1": {"offset": 0, "length": 8},
+    "Byte_2": {"offset": 8, "length": 8},
+    "Byte_3": {"offset": 16, "length": 8},
+    "Byte_4": {"offset": 24, "length": 8},
+    "Byte_5": {"offset": 32, "length": 8},
+    "Byte_6": {"offset": 40, "length": 8}
+  }
+}
 }
