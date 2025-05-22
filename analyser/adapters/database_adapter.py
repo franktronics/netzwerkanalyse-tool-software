@@ -48,7 +48,17 @@ class DatabaseAdapter(DatabasePort):
             self.conn.rollback()
 
     def get_analysis_by_id(self, analysis_id: str) -> Tuple[str, str, str] | None:
-        pass #TODO
+        try:
+            self.cursor.execute(
+                "Select id, timestamp, nic From analysis WHERE id = ?", (analysis_id,)
+            )
+            return self.cursor.fetchone()
+        except sqlite3.Error as e:
+            print(f"Error fetching analysis: {e}")
+            return None
+        except Exception as e:
+            print(f"Unexpected error: {e}")
+            return None
 
     def get_packets_by_analysis_id(self, analysis_id: str) -> list[Tuple[str, str, str, str, str, str]] | None:
         pass #TODO
@@ -61,8 +71,27 @@ class DatabaseAdapter(DatabasePort):
         finally:
             self.close_db()
 
-    def delete_analysis(self, analysis_id) -> bool:
-        pass #TODO
+    def delete_analysis(self, analysis_id) -> bool:      
+        try:
+            self.init_db()
+            self.cursor.execute(
+                "DELETE FROM packets WHERE analyse_id = ?", (analysis_id,)
+            )
+            self.cursor.excecute(
+                "DELETE FROM analysis WHERE id =?", (analysis_id,)
+            )
+            self.conn.commit()
+            return True
+        except sqlite3.Error as e:
+            print(f"Error Deleting analysis by ID: {e}")
+            self.conn.rollback()
+            return False
+        except Exception as e:
+            print(f"Unexpected error: {e}")
+            self.conn.rollback()
+            return False
+        finally:
+            self.close_db()
 
     def init_db(self) -> None:
         try:
