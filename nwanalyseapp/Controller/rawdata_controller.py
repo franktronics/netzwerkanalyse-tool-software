@@ -1,0 +1,108 @@
+from PyQt6.QtWidgets import QFileDialog, QMessageBox
+
+class RawDataController():
+
+    #constructor for BtnController
+    def __init__(self, view, model):
+        
+        self._view = view
+        self._model = model
+
+
+    #Register Events for view-components
+    def registerEvents(self):
+        self._view.getRawDataBtnStartSniffing().clicked.connect(self._actionPerformedStartSniffing)
+        self._view.getRawDataBtnStopSniffing().clicked.connect(self._actionPerformedStopSniffing)
+        self._view.getRawDataComboBoxNic().currentIndexChanged.connect(self._actionPerformedCombobox)
+        self._view.getRawDataBtnRefreshNic().clicked.connect(self._actionPerformedBtnRefreshNic)
+        self._view.getRawDataBtnExport().clicked.connect(self._actionPerformedExport)
+
+
+    #Action for ButtonStartSniffing
+    def _actionPerformedStartSniffing(self):
+        index_combobox = self._view.getRawDataComboBoxNic().itemText(self._view.getRawDataComboBoxNic().currentIndex())
+        #self._model.record(index_combobox)
+
+
+    #Action for ButtonStopSniffing
+    def _actionPerformedStopSniffing(self):
+        #self._model.stop_record()
+        pass
+
+
+    #Action for ComboBox
+    def _actionPerformedCombobox(self):
+        #self._model.stop_record()
+        pass
+
+
+    def _actionPerformedBtnRefreshNic(self):
+        
+        #NAME ändern TODO
+        #nics = self._model.snifferDetectNic()
+        #self._view.setRawDataNics(nics)
+        pass
+
+
+    #Action for Saving Sniffing Data
+    def _actionPerformedExport(self):
+        #self._model.stop_record()
+
+       
+        #execute filedialog
+        filename = QFileDialog.getSaveFileName(self._view, "Save Sniffing data", "", "Text files (*.txt)")
+        print("Save: " + str(filename))
+            
+        #get the filename without the filter
+        filename = filename[0]
+        if filename != '':
+            #self._model.exportData(filename) TODO
+            pass
+
+    
+
+
+    #Action for Loading Sniffing Data
+    # def _actionPerformedLoad(self):
+    #     self._model.snifferStopSniffData()
+    #     while True:
+    #         if self._model.storageIsDataSaved():
+    #             #execute filedialog
+    #             filename = QFileDialog.getOpenFileName(self._view, "Open Sniffing data", "", "Text files (*.txt)")
+    #             print("Open: " + str(filename))
+                
+    #             #get the filename without the filter
+    #             filename = filename[0]
+    #             if filename != '':
+    #                 self._model.storageOpenSniffingData(filename)
+    #             break
+    #         else:
+    #             print("Can't open a new file as Data isn't saved yet")
+    #             msgBox = QMessageBox(self._view)
+    #             msgBox.setWindowTitle("Open Sniffing data")
+    #             msgBox.setText("The data has been modified.")
+    #             msgBox.setInformativeText("Do you want to save your changes?")
+    #             msgBox.setStandardButtons(QMessageBox.StandardButton.Save | QMessageBox.StandardButton.Discard | QMessageBox.StandardButton.Cancel)
+    #             msgBox.setDefaultButton(QMessageBox.StandardButton.Save)
+
+    #             ret = msgBox.exec()
+
+    #             if ret == QMessageBox.StandardButton.Save:
+    #                 print("Save clicked")
+    #                 self._actionPerformedSave()
+    #             elif ret == QMessageBox.StandardButton.Discard:
+    #                 print("Discard clicked")
+    #                 self._model.storageClearStorage()
+    #             elif ret == QMessageBox.StandardButton.Cancel:
+    #                 print("Cancel clicked")
+    #                 break
+
+        
+
+
+# self.storage = []
+# filename = QFileDialog.getOpenFileName(self._view, "Open Sniffing data", "", "Text files (*.txt)")
+# print("Open: " + str(filename))
+# file = open(filename)
+# self.storage = file.read().splitlines()
+        
