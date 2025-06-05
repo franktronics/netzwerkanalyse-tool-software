@@ -4,7 +4,8 @@ from queue import Queue, Empty as QueueEmpty
 from typing import Type
 
 from ..ports import DatabasePort
-from .services import SocketService, ParserService
+from .services import SocketService
+from .models import ParserModel
 
 
 class AnalyserCore:
@@ -12,9 +13,9 @@ class AnalyserCore:
         # Ports
         self.database = database_adapter()
 
-        # Services
+        # Services and Models
         self.socket_service = SocketService()
-        self.parser_service = ParserService(entry_file="protocols/config/ethernet.json")
+        self.parser_model = ParserModel()
 
         # Logic
         self.stop_event = threading.Event()
@@ -44,7 +45,7 @@ class AnalyserCore:
                     raw_data = self.packet_queue.get(timeout=1.0)
                 except QueueEmpty:
                     continue
-                src_mac, dst_mac = self.parser_service.get_mac_adress(raw_data)
+                src_mac, dst_mac = self.parser_model.get_mac_adress(raw_data)
                 self.database.insert_packet(src_mac, dst_mac, raw_data, self.alaysis_id)
                 self.packet_queue.task_done()
             except Exception as e:

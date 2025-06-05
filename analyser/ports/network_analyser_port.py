@@ -4,6 +4,16 @@ from analyser.ports import DatabasePort
 
 class NetworkAnalyserPort(ABC):
 
+    @abstractmethod
+    def set_config(self, config: dict) -> None:
+        """
+        Set the configuration for the network analyser.
+
+        Args:
+            config (dict): Configuration dictionary containing settings for the analyser.
+        """
+        pass
+
     @property
     @abstractmethod
     def database(self) -> DatabasePort:
@@ -31,3 +41,15 @@ class NetworkAnalyserPort(ABC):
         Stop recording network packets.
         """
         pass
+
+    @abstractmethod
+    def parse_one_packet(self, packet: bytes) -> dict[str, dict[str, any]]:
+        """
+        Parse a single network packet.
+
+        Args:
+            packet (bytes): The raw packet data to parse.
+
+        Returns:
+            dict: Parsed packet data structured as a dictionary.
+        """

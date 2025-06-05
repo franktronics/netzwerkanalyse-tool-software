@@ -1,19 +1,32 @@
-from ..core import AnalyserCore
-from ..adapters import DatabaseAdapter
+from ..core import AnalyserCore, ParserCore
+from .database_adapter import DatabaseAdapter
+from .file_manager_adapter import FileManagerAdapter
 from ..ports import DatabasePort, NetworkAnalyserPort
 
 
 class NetworkAnalyser(NetworkAnalyserPort):
     def __init__(self):
-        self._core = AnalyserCore(DatabaseAdapter)
-        self._database = self._core.database
+        self._config = {
+            "parser_entry_file": "protocols/config/ethernet.json",
+        }
+
+        self._analyser_core = AnalyserCore(DatabaseAdapter)
+        self._parser_core = ParserCore(FileManagerAdapter)
+        self._database = self._analyser_core.database
+
+    def set_config(self, config: dict) -> None:
+        self._config.update(config)
+        self._parser_core.set_entry_file(self._config["parser_entry_file"])
 
     @property
     def database(self) -> DatabasePort:
         return self._database
 
     def record(self, nic: str) -> None:
-        self._core.record(nic)
+        self._analyser_core.record(nic)
 
     def stop_record(self) -> None:
-        self._core.stop_record()
+        self._analyser_core.stop_record()
+
+    def parse_one_packet(self, packet: bytes) -> dict[str, dict[str, any]]:
+        return self._parser_core.parse_one_packet(packet)

@@ -1,2 +1,3 @@
 from .database_port import DatabasePort
+from .file_manager_port import FileManagerPort
 from .network_analyser_port import NetworkAnalyserPort
