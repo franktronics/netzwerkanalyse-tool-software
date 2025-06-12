@@ -8,6 +8,7 @@ class NetworkAnalyser(NetworkAnalyserPort):
     def __init__(self):
         self._config = {
             "parser_entry_file": "protocols/config/ethernet.json",
+            "parser_types_file": "protocols/config/type.json"
         }
 
         self._analyser_core = AnalyserCore(DatabaseAdapter)

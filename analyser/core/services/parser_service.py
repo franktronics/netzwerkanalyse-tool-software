@@ -1,6 +1,5 @@
 from typing import Dict, ClassVar, Tuple
 import os
-from utils.functions import TypeConverter
 from ..models import ParserModel, ProtocolDefinition
 
 

@@ -15,29 +15,6 @@ class ParserCore:
         self._entry_file = "protocols/config/ethernet.json"
         self._protocol_definitions: dict[str, ProtocolDefinition] = {}
 
-    def parse_one_packet(self, packet: bytes) -> dict[str, dict[str, any]]:
-        self._parser_service.clear()
-        entry_protocol = self._get_protocol_definition(self._entry_file)
-
-        result = {}
-        src_mac, dest_mac = self._parser_service.get_mac_adress(packet)
-        result["mac"] = {
-            "src": src_mac,
-            "dst": dest_mac
-        }
-
-        result.update(self._parser_service.parse_one_protocol(packet, entry_protocol, 0))
-        next_file, start_after = self._parser_service.get_next_protocol_data(entry_protocol, self._entry_file)
-
-        while next_file is not None:
-            self._parser_service.clear()
-            next_protocol = self._get_protocol_definition(next_file)
-            result.update(self._parser_service.parse_one_protocol(packet, next_protocol, start_after))
-
-            next_file, start_after = self._parser_service.get_next_protocol_data(next_protocol, self._entry_file)
-
-        return result
-
     def _get_protocol_definition(self, file_name: str) -> ProtocolDefinition:
         """
         Load the protocol definition from a JSON file, caching it for future use.
@@ -61,6 +38,35 @@ class ParserCore:
         )
         self._protocol_definitions[file_name] = protocol
         return protocol
+
+    def parse_one_packet(self, packet: bytes) -> dict[str, dict[str, any]]:
+        self._parser_service.clear()
+        entry_protocol = self._get_protocol_definition(self._entry_file)
+
+        result = {}
+        src_mac, dest_mac = self._parser_service.get_mac_adress(packet)
+        result["mac"] = {
+            "src": src_mac,
+            "dst": dest_mac
+        }
+
+        result.update(self._parser_service.parse_one_protocol(packet, entry_protocol, 0))
+        next_file, start_after = self._parser_service.get_next_protocol_data(entry_protocol, self._entry_file)
+
+        while next_file is not None:
+            self._parser_service.clear()
+            next_protocol = self._get_protocol_definition(next_file)
+            result.update(self._parser_service.parse_one_protocol(packet, next_protocol, start_after))
+
+            next_file, start_after = self._parser_service.get_next_protocol_data(next_protocol, self._entry_file)
+
+        return result
+
+    def parse_packets_list(self, packets: list[bytes]) -> list[dict[str, dict[str, any]]]:
+        result = []
+        for packet in packets:
+            result.append(self.parse_one_packet(packet))
+        return result
 
     def set_entry_file(self, entry_file: str) -> None:
         """

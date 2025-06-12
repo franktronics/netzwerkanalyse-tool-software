@@ -50,7 +50,7 @@ class DatabaseAdapter(DatabasePort):
     def get_analysis_by_id(self, analysis_id: str) -> Tuple[str, str, str] | None:
         try:
             self.cursor.execute(
-                "Select id, timestamp, nic From analysis WHERE id = ?", (analysis_id,)
+                "SELECT id, timestamp, nic FROM analysis WHERE id = ?", (analysis_id,)
             )
             return self.cursor.fetchone()
         except sqlite3.Error as e:
