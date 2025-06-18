@@ -1,1 +1,0 @@
-from .ethernet_types import ETHERNET_TYPES

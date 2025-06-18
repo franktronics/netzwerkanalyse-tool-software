@@ -1,21 +1,42 @@
-from utils.functions import os_detection, nic_detection
-from sockets import SocketInit, SocketReader
-from protocols.parser import ProtocolParser
-
+from PyQt6.QtWidgets import QApplication
+from View.view import View
+from Controller.menucontroller import MenuController
+from Model.model import Model
+from Controller.terminalcontroller import TerminalController
+from Adapter.terminalstatusadapter import TerminalStatusAdapter
+from Adapter.windowconfigadapter import WindowConfigAdapter
+from Adapter.terminalnicadapter import TerminalNicAdapter
+from Adapter.terminaldataadapter import TerminalDataAdapter
+from util.subpub.subpubv2 import SubPubV2
 
 if __name__ == "__main__":
-    os_detected = os_detection()
-    nics = nic_detection()
+    app = QApplication([])
 
-    print(f"Detected OS: {os_detected}")
-    print(f"Detected NICs: {nics}")
-    #The user must select an interface to sniff on
-    selected_nic = ""
-    if os_detected == "linux":
-        selected_nic = input(f"Please select a NIC (example: {nics[0]}): ")
+    subpub = SubPubV2()
 
-    socket_obj = SocketInit(os_detected, selected_nic)
-    parser = ProtocolParser(entry_file="protocols/config/ethernet.json")
-    socket_reader = SocketReader(socket_obj=socket_obj, parser_fct=parser.parse)
+    #View
+    view = View()
+    
+    #Model
+    model = Model(subpub)
 
-    socket_reader.run()
+    #Controller
+    terminalController = TerminalController(view, model)
+    menucontroller = MenuController(view, model)
+    
+    #Adapter
+    terminalStatusAdapter = TerminalStatusAdapter(view, model, subpub)
+    terminalnicAdapter = TerminalNicAdapter(view, model, subpub)
+    windowconfigAdapter = WindowConfigAdapter(view, model, subpub)
+    terminalDataAdapter = TerminalDataAdapter(view, model, subpub)
+
+
+    view.initializeWindow()
+    terminalController.registerEvents()
+    menucontroller.registerEvents()
+    terminalStatusAdapter.subscribeModel_StatusSniffingData()
+    terminalnicAdapter.subscribeModel_NicDataComboBox()
+    windowconfigAdapter.subscribeModel_WindowConfiguration()
+    terminalDataAdapter.subscribeModel_TerminalDataSniffing()
+
+    app.exec()
