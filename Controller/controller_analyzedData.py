@@ -29,11 +29,13 @@ class ControllerAnalyzedData():
         self._view._viewanalyzedData.table_database.getTable().clicked.connect(self._actionPerformedDatabaseSingleClick)
         self._view._viewanalyzedData.table_packages.getTable().doubleClicked.connect(self._actionPerformedPackagesDoubleClick)
         self._view._viewanalyzedData.table_packages.getTable().clicked.connect(self._actionPerformedPackagesSingleClick)
+        self._view._viewanalyzedData.btnRefreshTable.released.connect(self._actionPerformedReloadTable)
 
     
 
-    def _actionPerformedReloadDatabase(self):
+    def _actionPerformedReloadTable(self):
         print("self._model.get_all_analyses()")
+        self._model.get_all_analyses()
 
 
 
@@ -43,31 +45,38 @@ class ControllerAnalyzedData():
 
 
     def _actionPerformedNext(self):
-        if self.rowSelected_database is not None:
-            self._model.viewAnalyzedNext()
-            print("self._model.get_packets_by_analysis_id(analysis_id)")
-            print(str("database: ") + str(self.rowSelected_database))
+        if self._model.retViewAnalyzedState() == self._model._settings_view.STATEDATABASE:
+            if self.rowSelected_database is not None:
+                self._model.viewAnalyzedNext()
+                print("self._model.get_packets_by_analysis_id(analysis_id)")
+                print(str("database: ") + str(self.rowSelected_database))
 
-            analysis_id = int(self._view._viewanalyzedData.table_packages.item(self.rowSelected_database, 1))
-            self._model.get_packets_by_analysis_id(analysis_id)
-            self.rowSelected_database = None
+                analysis_id = int(self._view._viewanalyzedData.table_database.item(self.rowSelected_database, 0))
+                self._model.get_packets_by_analysis_id(analysis_id)
+                self.rowSelected_database = None
+            
+            else:
+                self._error()
 
-        elif self.rowSelected_packages is not None:
-            self._model.viewAnalyzedNext()
-            print("self._model.get_analysis_by_id(analysis_id)")
-            print(str("pack: ") + str(self.rowSelected_packages))
+        elif self._model.retViewAnalyzedState() == self._model._settings_view.STATEPACKAGE:
+            if self.rowSelected_packages is not None:
+                self._model.viewAnalyzedNext()
+                print("self._model.parse_one_packet(analysis_id)")
+                print(str("pack: ") + str(self.rowSelected_packages))
 
-            analysis_id = int(self._view._viewanalyzedData.table_packages.item(self.rowSelected_database, 1))
-            self._model.get_analysis_by_id(analysis_id)
-            self.rowSelected_packages = None
-
-        else:
-            msgBox = QMessageBox()
-            msgBox.setWindowTitle("Error")
-            msgBox.setWindowIcon(self.icon_error)
-            msgBox.setIcon(QMessageBox.Icon.Critical)
-            msgBox.setText("No entry selected")
-            msgBox.exec()
+                analysis_id = int(self._view._viewanalyzedData.table_packages.item(self.rowSelected_packages, 4))
+                self._model.parse_one_packet(analysis_id)
+                self.rowSelected_packages = None
+            else:
+                self._error()
+            
+    def _error(self):
+        msgBox = QMessageBox()
+        msgBox.setWindowTitle("Error")
+        msgBox.setWindowIcon(self.icon_error)
+        msgBox.setIcon(QMessageBox.Icon.Critical)
+        msgBox.setText("No entry selected")
+        msgBox.exec()
 
 
     def _actionPerformedDatabaseSingleClick(self, index: QModelIndex):

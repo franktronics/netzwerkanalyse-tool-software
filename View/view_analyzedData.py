@@ -1,9 +1,10 @@
-from PyQt6.QtWidgets import QWidget, QVBoxLayout, QPushButton, QHBoxLayout, QTableView, QListWidget, QToolBar, QMainWindow, QComboBox, QLabel
+from PyQt6.QtWidgets import QWidget, QVBoxLayout, QPushButton, QHBoxLayout, QTableView, QTreeView, QComboBox, QLabel
 from PyQt6.QtGui import QIcon, QStandardItemModel, QStandardItem
 from PyQt6.QtCore import QSize, Qt
 from PyQt6.QtWidgets import QHeaderView
 import os
 from View.components.tableTemplateV1 import TableTemplateV1
+from View.components.treeTemplateV1 import TreeTemplateV1
 
 class ViewAnalyzedData(QWidget):
     #Constructor for centerApplication ViewRawData
@@ -25,6 +26,9 @@ class ViewAnalyzedData(QWidget):
     #initialize the centerApplication ViewRawData
     def _initUI(self):
 
+        base_path = os.path.dirname(__file__)
+        icon_path = os.path.join(base_path, "images")
+
         self.layoutH_lab = QHBoxLayout()
 
         #Labels
@@ -36,15 +40,26 @@ class ViewAnalyzedData(QWidget):
         self.lab_packageSelection.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.layoutH_lab.addWidget(self.lab_packageSelection)
 
+        #icon refresh nics
+        self.btnRefreshTable = QPushButton()
+        icon_path_temp = os.path.join(icon_path, "refresh-icon.png")
+        icon = QIcon(icon_path_temp)
+
+        self.btnRefreshTable.setIcon(icon)
+        self.btnRefreshTable.setIconSize(QSize(20, 20))
+        self.btnRefreshTable.setFixedSize(23, 23)
+        self.btnRefreshTable.setFlat(True)
+        self.layoutH_lab.addWidget(self.btnRefreshTable)
+
         #Tables/Lists
         self.table_database = TableTemplateV1(["ID", "Timestamp", "NIC"])
         #self.table_database.addTestData(5)
 
-        self.table_packages = TableTemplateV1(["ID", "Timestamp", "Src-MAC", "Dst-MAC", "RAW-Data"])
+        self.table_packages = TableTemplateV1(["ID", "Timestamp", "Src-MAC", "Dst-MAC", "RAW-Data, Analysis-ID"])
         #self.table_packages.addTestData(2)
 
-        self.list_package = QListWidget()
-        #self.list_package.addItems(["sfsfsfsf", "dfshgksghmj", "dafoihgnadonhgfaä#nm", "3ß49857"])
+        self.tree_package = TreeTemplateV1()
+        #self.tree_package.showTestData()
         
         
         #Buttons
@@ -147,7 +162,7 @@ class ViewAnalyzedData(QWidget):
         self.btn_back.setDisabled(False)
         self.btn_next.setDisabled(True)
 
-        self._replace_dataWidget(self.list_package)
+        self._replace_dataWidget(self.tree_package.getTree())
 
     def _state_default(self):
         #Labels
@@ -179,7 +194,7 @@ class ViewAnalyzedData(QWidget):
         for i in range(layout.count()):
             item = layout.itemAt(i)
             widget = item.widget()
-            if isinstance(widget, (QTableView, QListWidget)):
+            if isinstance(widget, (QTableView, QTreeView)):
                 # Alte Tabelle entfernen
                 layout.removeWidget(widget)
                 widget.setParent(None)
@@ -189,8 +204,11 @@ class ViewAnalyzedData(QWidget):
                 break
 
     
-    def reloadAnalysis(self, data):
+    def loadAnalysis(self, data):
         self.table_database.addData(data)
 
-    def reloadPackages(self, data):
+    def loadPackages(self, data):
         self.table_packages.addData(data)
+
+    def showAnalysis(self, data: dict[str, dict[str, any]]):
+        self.tree_package.showData(data)

@@ -28,7 +28,7 @@ class Model:
     def initialize(self):
         self.viewAnalyzedInit()
         self.snifferDetectNic()
-        self.get_all_analyses()
+        #self.get_all_analyses()
 
 
     def snifferDetectNic(self):
@@ -126,6 +126,10 @@ class Model:
     def get_packets_by_analysis_id(self, analysis_id: str): # -> list[Tuple[str, str, str, str, str, str]] | None:
         temp = self._storage.get_packets_by_analysis_id(analysis_id)
         self._subpub.publish(self.PUBLISH_TOPIC_ANALYZEDDATA_PACKAGE, temp)
+
+    #analyze package
+    def parse_one_packet(self, data:bytes):
+        self._analyser.parse_one_packet(data)
 
 #   analyzing a package
 #         temp = self._storage.get_analysis_by_id(analysis_id)

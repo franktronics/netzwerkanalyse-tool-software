@@ -27,8 +27,10 @@ class TableTemplateV1():
 
 
     def addTestData(self, number):
+        self.clear()
+        column_count = len(self.columns)
         for row in range(number):
-            items = [f"{row},{col}" for col in range(self.itemmodel.columnCount())]
+            items = [f"{str(row)}" for col in range(column_count)]
             self._addItems(items)
 
 

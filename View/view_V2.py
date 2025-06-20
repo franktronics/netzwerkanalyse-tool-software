@@ -284,8 +284,11 @@ class ViewV2(QMainWindow):
     def analyzedDataSetState(self, state:int):
         self._viewanalyzedData.setState(state)
 
-    def analyzedData_reloadAnalysis(self, data):
-        self._viewanalyzedData.reloadAnalysis(data)
+    def analyzedData_loadAnalysis(self, data):
+        self._viewanalyzedData.loadAnalysis(data)
 
-    def analyzedData_reloadPackages(self, data):
-        self._viewanalyzedData.reloadPackages(data)
+    def analyzedData_loadPackages(self, data):
+        self._viewanalyzedData.loadPackages(data)
+
+    def analyzedData_showAnalysis(self, data):
+        self._viewanalyzedData.showAnalysis(data)

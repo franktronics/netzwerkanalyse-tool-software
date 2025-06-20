@@ -44,7 +44,7 @@ class AdapterAnalyzedData():
 
     #Receiving a message after publisher publishes value
     def onNextDataAnalysis(self, item):
-        self._view.analyzedData_reloadAnalysis(item)
+        self._view.analyzedData_loadAnalysis(item)
 
     
     
@@ -61,7 +61,7 @@ class AdapterAnalyzedData():
 
     #Receiving a message after publisher publishes value
     def onNextPackageAnalysis(self, item):
-        self._view.analyzedData_reloadPackages(item)
+        self._view.analyzedData_loadPackages(item)
 
 
     
@@ -78,4 +78,4 @@ class AdapterAnalyzedData():
 
     #Receiving a message after publisher publishes value
     def onNextshowAnalysis(self, item: int):
-        pass
+        self._view.analyzedData_showAnalysis(item)
