@@ -2,8 +2,7 @@ from Model.storage import Storage
 from Model.settings_view import Settings_View
 from Model.utils import detectNic
 from Model.analyser import NetworkAnalyserPort, NetworkAnalyser
-from Model.analyser import DatabasePort, DatabaseAdapter
-from typing import Tuple
+from Model.analyser import DatabasePort
 
 class Model:
     PUBLISH_TOPIC_STATUSSNIFFINGDATA = "statussniffingdata"
@@ -23,7 +22,7 @@ class Model:
         self._subpub = subpub
         self._nics = []
         self._analyser: NetworkAnalyserPort = NetworkAnalyser()
-        self._storage : DatabasePort = DatabaseAdapter()
+        self._storage: DatabasePort = self._analyser.database
 
 
     def initialize(self):
