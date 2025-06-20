@@ -43,3 +43,7 @@ class TableTemplateV1():
             if len(item) != len(self.columns):
                 raise ValueError(f"Tuple length {len(item)} does not match number of columns {len(self.columns)}")
             self._addItems(item)
+
+
+    def item(self, row:int, col:int) -> str:
+        return self.itemmodel.item(row, col).text()

@@ -7,7 +7,7 @@ from Model.model import Model
 from Controller.terminalcontroller import TerminalController
 from Controller.menucontroller import MenuController
 from Controller.rawdata_controller import RawDataController
-from Controller.controller_analysis import ControllerAnalysis
+from Controller.controller_analyzedData import ControllerAnalyzedData
 from Controller.controller_hello import ControllerHello
 
 from Adapter.terminalstatusadapter import TerminalStatusAdapter
@@ -32,7 +32,7 @@ if __name__ == "__main__":
     # terminalController = TerminalController(view, model)
     rawDataController = RawDataController(view, model)
     menucontroller = MenuController(view, model)
-    controllerAnalyzedData = ControllerAnalysis(view, model)
+    controllerAnalyzedData = ControllerAnalyzedData(view, model)
     controllerhello = ControllerHello(view, model)
     
     #Adapter

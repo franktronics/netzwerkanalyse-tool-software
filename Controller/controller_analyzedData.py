@@ -4,7 +4,7 @@ from PyQt6.QtCore import QSize, QModelIndex
 import os
 from Model import Model
 
-class ControllerAnalysis():
+class ControllerAnalyzedData():
 
     def __init__(self, view, model:Model):
         self._view = view
@@ -43,20 +43,22 @@ class ControllerAnalysis():
 
 
     def _actionPerformedNext(self):
-        if self.rowSelected_database != None:
+        if self.rowSelected_database is not None:
             self._model.viewAnalyzedNext()
-            print("self._model.get_packets_by_analysis_id(self.rowSelected_database)")
+            print("self._model.get_packets_by_analysis_id(analysis_id)")
             print(str("database: ") + str(self.rowSelected_database))
 
-            self._model.get_packets_by_analysis_id(self.rowSelected_database)
+            analysis_id = int(self._view._viewanalyzedData.table_packages.item(self.rowSelected_database, 1))
+            self._model.get_packets_by_analysis_id(analysis_id)
             self.rowSelected_database = None
 
-        elif self.rowSelected_packages != None:
+        elif self.rowSelected_packages is not None:
             self._model.viewAnalyzedNext()
-            print("self._model.get_analysis_by_id(self.rowSelected_packages)")
+            print("self._model.get_analysis_by_id(analysis_id)")
             print(str("pack: ") + str(self.rowSelected_packages))
 
-            self._model.get_analysis_by_id(self.rowSelected_packages)
+            analysis_id = int(self._view._viewanalyzedData.table_packages.item(self.rowSelected_database, 1))
+            self._model.get_analysis_by_id(analysis_id)
             self.rowSelected_packages = None
 
         else:
