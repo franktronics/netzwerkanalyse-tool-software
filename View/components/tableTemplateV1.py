@@ -37,7 +37,8 @@ class TableTemplateV1():
         self.itemmodel.setHorizontalHeaderLabels(self.columns)
     
 
-    def addRow(self, data):
+    def addData(self, data):
+        self.clear()
         for item in data:
             if len(item) != len(self.columns):
                 raise ValueError(f"Tuple length {len(item)} does not match number of columns {len(self.columns)}")

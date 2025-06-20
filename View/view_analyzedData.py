@@ -190,7 +190,7 @@ class ViewAnalyzedData(QWidget):
 
     
     def reloadAnalysis(self, data):
-        self.table_database.addRow(data)
+        self.table_database.addData(data)
 
     def reloadPackages(self, data):
-        self.table_packages.addRow(data)
+        self.table_packages.addData(data)
