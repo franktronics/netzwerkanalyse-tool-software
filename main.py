@@ -57,6 +57,7 @@ if __name__ == "__main__":
     adapter_analyzedData.subscribeModel_StateAnalysis()
     adapter_analyzedData.subscribeModel_DataAnalysis()
     adapter_analyzedData.subscribeModel_PackageAnalysis()
+    adapter_analyzedData.subscribeModel_showAnalysis()
 
     model.initialize()
 
