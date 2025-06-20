@@ -25,4 +25,4 @@ class TerminalDataAdapter:
 
     #Receiving a message after publisher publishes value
     def onNext(self, item: tuple[int, str, str]):
-        self._view.addDataSniffing(item)
+        self._view.addSniffingData(item)

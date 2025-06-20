@@ -1,1 +1,1 @@
-from .analysis_table import AnalysisTable
+from .rawData_table import RawDataTable

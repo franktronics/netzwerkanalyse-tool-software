@@ -1,5 +1,7 @@
+#not used
+
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QPushButton, QHBoxLayout, QComboBox
-from View.components import AnalysisTable
+from View.components import RawDataTable
 
 
 class ViewTerminal(QWidget):
@@ -15,8 +17,8 @@ class ViewTerminal(QWidget):
         
         layout = QVBoxLayout()
 
-        #Create list
-        self.table_widget = AnalysisTable()
+        #Create table
+        self.table_widget = RawDataTable()
         layout.addWidget(self.table_widget)
 
         #Start/Stop-Button

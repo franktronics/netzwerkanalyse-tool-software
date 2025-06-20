@@ -1,3 +1,6 @@
+# Outdated!!!
+
+
 from PyQt6.QtWidgets import QFileDialog, QMessageBox
 
 class TerminalController:
@@ -11,10 +14,11 @@ class TerminalController:
 
     #Register Events for view-components
     def registerEvents(self):
-        self._view.getTerminalBtnSniff().clicked.connect(self._perfom_sniffing)
-        self._view.getTerminalComboBoxNic().currentIndexChanged.connect(self._actionPerformedCombobox)
-        self._view.getTerminalBtnSave().clicked.connect(self._actionPerformedSave)
-        self._view.getTerminalBtnLoad().clicked.connect(self._actionPerformedLoad)
+        # self._view.getTerminalBtnSniff().clicked.connect(self._perfom_sniffing)
+        # self._view.getTerminalComboBoxNic().currentIndexChanged.connect(self._actionPerformedCombobox)
+        # self._view.getTerminalBtnSave().clicked.connect(self._actionPerformedSave)
+        # self._view.getTerminalBtnLoad().clicked.connect(self._actionPerformedLoad)
+        pass
 
 
     def _perfom_sniffing(self):

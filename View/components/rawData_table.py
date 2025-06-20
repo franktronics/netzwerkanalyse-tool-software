@@ -1,7 +1,7 @@
 from PyQt6.QtWidgets import QCheckBox, QTableWidget, QTableWidgetItem, QHeaderView
 from PyQt6.QtCore import Qt
 
-class AnalysisTable(QTableWidget):
+class RawDataTable(QTableWidget):
     def __init__(self):
         super().__init__()
 
