@@ -38,13 +38,13 @@ class ViewAnalyzedData(QWidget):
 
         #Tables/Lists
         self.table_database = TableTemplateV1(["ID", "Timestamp", "NIC"])
-        self.table_database.addTestData(5)
+        #self.table_database.addTestData(5)
 
         self.table_packages = TableTemplateV1(["ID", "Timestamp", "Src-MAC", "Dst-MAC", "RAW-Data"])
-        self.table_packages.addTestData(2)
+        #self.table_packages.addTestData(2)
 
         self.list_package = QListWidget()
-        self.list_package.addItems(["sfsfsfsf", "dfshgksghmj", "dafoihgnadonhgfaä#nm", "3ß49857"])
+        #self.list_package.addItems(["sfsfsfsf", "dfshgksghmj", "dafoihgnadonhgfaä#nm", "3ß49857"])
         
         
         #Buttons
