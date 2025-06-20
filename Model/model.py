@@ -29,6 +29,7 @@ class Model:
     def initialize(self):
         self.viewAnalyzedInit()
         self.snifferDetectNic()
+        self.get_all_analyses()
 
 
     def snifferDetectNic(self):
