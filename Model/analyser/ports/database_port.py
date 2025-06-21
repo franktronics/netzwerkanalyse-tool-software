@@ -62,6 +62,19 @@ class DatabasePort(ABC):
         pass
 
     @abstractmethod
+    def get_packet_by_id(self, packet_id: str) -> Tuple[str, str, str, str, str, str] | None:
+        """
+        Get a packet record by its ID.
+
+        Args:
+            packet_id (str): ID of the packet to retrieve
+
+        Returns:
+            tuple: Packet record as (id, timestamp, src_mac, dst_mac, raw_data, analysis_id) or None if not found
+        """
+        pass
+
+    @abstractmethod
     def get_all_analyses(self) -> list[Tuple[str, str, str]] | None:
         """
         Get all analysis records.

@@ -83,6 +83,20 @@ class DatabaseAdapter(DatabasePort):
         finally:
             self.close_db()
 
+    def get_packet_by_id(self, packet_id: str) -> Tuple[str, str, str, str, str, str] | None:
+        self.init_db()
+        try:
+            self.cursor.execute(
+                "SELECT id, timestamp, src_mac, dst_mac, raw_data, analysis_id FROM packets WHERE id = ?", (packet_id,)
+            )
+            return self.cursor.fetchone()
+        except sqlite3.Error as e:
+            print(f"Error fetching packet by ID: {e}")
+            return None
+        except Exception as e:
+            print(f"Unexpected error: {e}")
+            return None
+
     def get_all_analyses(self) -> list[Tuple[str, str, str]] | None:
         self.init_db()
         try:

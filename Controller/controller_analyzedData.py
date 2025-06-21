@@ -64,8 +64,9 @@ class ControllerAnalyzedData():
                 print("self._model.parse_one_packet(analysis_id)")
                 print(str("pack: ") + str(self.rowSelected_packages))
 
-                analysis_id = int(self._view._viewanalyzedData.table_packages.item(self.rowSelected_packages, 4))
-                self._model.parse_one_packet(analysis_id)
+                packet_id: int = int(self._view._viewanalyzedData.table_packages.item(self.rowSelected_packages, 0))
+                temp = self._model.get_packet_dict(packet_id)
+                self._model.parse_one_packet(temp[4])
                 self.rowSelected_packages = None
             else:
                 self._error()

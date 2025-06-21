@@ -55,7 +55,7 @@ class ViewAnalyzedData(QWidget):
         self.table_database = TableTemplateV1(["ID", "Timestamp", "NIC"])
         #self.table_database.addTestData(5)
 
-        self.table_packages = TableTemplateV1(["ID", "Timestamp", "Src-MAC", "Dst-MAC", "RAW-Data, Analysis-ID"])
+        self.table_packages = TableTemplateV1(["ID", "Timestamp", "Src-MAC", "Dst-MAC", "RAW-Data", "Analysis-ID"])
         #self.table_packages.addTestData(2)
 
         self.tree_package = TreeTemplateV1()
