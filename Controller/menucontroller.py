@@ -1,9 +1,11 @@
 from PyQt6.QtWidgets import QFileDialog, QMessageBox
+from Model import Model
+from View import ViewV2
 
 class MenuController():
 
     #Constructor for MenuController
-    def __init__(self, view, model):
+    def __init__(self, view: ViewV2, model: Model):
         self._view = view
         self._model = model
 
@@ -159,6 +161,7 @@ class MenuController():
     #Action for MenuItem-Action ViewAnalyzedData
     def _actionPerformedViewAnalyzedData(self):
         self._model.snifferStopSniffData()
+        self._model.get_all_analyses()
         self._view.setWindow(self._view.VIEWANALYZEDDATA)
         self._view.activateAnalysis()
 

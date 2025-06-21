@@ -127,12 +127,12 @@ class Model:
         temp = self._storage.get_packets_by_analysis_id(analysis_id)
         self._subpub.publish(self.PUBLISH_TOPIC_ANALYZEDDATA_PACKAGE, temp)
 
-    def get_packet_dict(self, packet_id: str):
-        return self._storage.get_packet_by_id(packet_id)
 
     #analyze package
-    def parse_one_packet(self, data: bytes):
-        temp = self._analyser.parse_one_packet(data)
+    def get_packet_dict(self, packet_id: str):
+        packet_data = self._storage.get_packet_by_id(packet_id)
+        raw_data = packet_data[4]
+        temp = self._analyser.parse_one_packet(raw_data)
         self._subpub.publish(self.PUBLISH_TOPIC_ANALYZEDDATA_SHOW, temp)
 
 #   analyzing a package

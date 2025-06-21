@@ -11,6 +11,7 @@ class TreeTemplateV1():
         self.treeView = QTreeView()
         self.treeView.setModel(self.itemmodel)
         self.treeView.setHeaderHidden(False)
+        self.treeView.setEditTriggers(QTreeView.EditTrigger.NoEditTriggers)
 
     def getTree(self):
         return self.treeView
@@ -27,10 +28,19 @@ class TreeTemplateV1():
 
     def _addDataRecursive(self, data, parentItem:QStandardItem):
         if isinstance(data, dict):
-            for key, value in data.items():
-                item = QStandardItem(str(key))
-                parentItem.appendRow(item)
-                self._addDataRecursive(value, item)
+            if set(data.keys()).issubset({"value", "description"}):
+                if "value" in data:
+                    value_item = QStandardItem(f"value: {data['value']}")
+                    parentItem.appendRow(value_item)
+                if "description" in data:
+                    desc_item = QStandardItem(f"description: {data['description']}")
+                    parentItem.appendRow(desc_item)
+            else:
+
+                for key, value in data.items():
+                    item = QStandardItem(str(key))
+                    parentItem.appendRow(item)
+                    self._addDataRecursive(value, item)
         elif isinstance(data, list):
             for element in data:
                 self._addDataRecursive(element, parentItem)
