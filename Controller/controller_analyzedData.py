@@ -2,11 +2,10 @@ from PyQt6.QtWidgets import QMessageBox
 from PyQt6.QtGui import QIcon
 from PyQt6.QtCore import QSize, QModelIndex
 import os
-from Model import Model
 
 class ControllerAnalyzedData():
 
-    def __init__(self, view, model:Model):
+    def __init__(self, view, model):
         self._view = view
         self._model = model
 

@@ -1,10 +1,9 @@
 from PyQt6.QtWidgets import QFileDialog, QMessageBox
-from View import ViewV2
 
 class RawDataController():
 
     #constructor for BtnController
-    def __init__(self, view:ViewV2, model):
+    def __init__(self, view, model):
         
         self._view = view
         self._model = model
@@ -56,50 +55,3 @@ class RawDataController():
             #self._model.exportData(filename) TODO
             pass
 
-    
-
-
-    #Action for Loading Sniffing Data
-    # def _actionPerformedLoad(self):
-    #     self._model.snifferStopSniffData()
-    #     while True:
-    #         if self._model.storageIsDataSaved():
-    #             #execute filedialog
-    #             filename = QFileDialog.getOpenFileName(self._view, "Open Sniffing data", "", "Text files (*.txt)")
-    #             print("Open: " + str(filename))
-                
-    #             #get the filename without the filter
-    #             filename = filename[0]
-    #             if filename != '':
-    #                 self._model.storageOpenSniffingData(filename)
-    #             break
-    #         else:
-    #             print("Can't open a new file as Data isn't saved yet")
-    #             msgBox = QMessageBox(self._view)
-    #             msgBox.setWindowTitle("Open Sniffing data")
-    #             msgBox.setText("The data has been modified.")
-    #             msgBox.setInformativeText("Do you want to save your changes?")
-    #             msgBox.setStandardButtons(QMessageBox.StandardButton.Save | QMessageBox.StandardButton.Discard | QMessageBox.StandardButton.Cancel)
-    #             msgBox.setDefaultButton(QMessageBox.StandardButton.Save)
-
-    #             ret = msgBox.exec()
-
-    #             if ret == QMessageBox.StandardButton.Save:
-    #                 print("Save clicked")
-    #                 self._actionPerformedSave()
-    #             elif ret == QMessageBox.StandardButton.Discard:
-    #                 print("Discard clicked")
-    #                 self._model.storageClearStorage()
-    #             elif ret == QMessageBox.StandardButton.Cancel:
-    #                 print("Cancel clicked")
-    #                 break
-
-        
-
-
-# self.storage = []
-# filename = QFileDialog.getOpenFileName(self._view, "Open Sniffing data", "", "Text files (*.txt)")
-# print("Open: " + str(filename))
-# file = open(filename)
-# self.storage = file.read().splitlines()
-        

@@ -1,3 +1,6 @@
+#Outdated - same functions in adapter_rawdata
+
+
 class TerminalNicAdapter():
 
     #constructor for TerminalNicAdapter

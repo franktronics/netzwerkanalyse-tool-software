@@ -1,14 +1,18 @@
-from Model.storage import Storage
 from Model.settings_view import Settings_View
 from Model.utils import detectNic
 from Model.analyser import NetworkAnalyserPort, NetworkAnalyser
 from Model.analyser import DatabasePort
 
 class Model:
+    PUBLISH_TOPIC_WINDOW_CONFIG = "windowconfig"
+
     PUBLISH_TOPIC_STATUSSNIFFINGDATA = "statussniffingdata"
     PUBLISH_TOPIC_TERMINAL_NIC = "nicterminal"
-    PUBLISH_TOPIC_WINDOW_CONFIG = "windowconfig"
     PUBLISH_TOPIC_ADAPTER_DATA_SNIFFING = "adapterdatasniffing"
+
+    PUBLISH_TOPIC_RAWDATA_NIC = "rawdata_nic"
+    PUBLISH_TOPIC_RAWDATA_SNIFFINGDATA = "rawdata_sniffingdata"
+    PUBLISH_TOPIC_RAWDATA_STATUSSNIFFINGDATA = "rawdata_statussniffingdata"
     
     PUBLISH_TOPIC_ANALYZEDDATA_STATE = "analyzeddata_state"
     PUBLISH_TOPIC_ANALYZEDDATA_ANALYSIS = "analyzeddata_analysis"
@@ -39,7 +43,7 @@ class Model:
             self._nics.clear()
         
         self._nics = detectNic()
-        self._subpub.publish(self.PUBLISH_TOPIC_TERMINAL_NIC, self._nics)
+        self._subpub.publish(self.PUBLISH_TOPIC_RAWDATA_NIC, self._nics)
 
 
 
@@ -51,9 +55,9 @@ class Model:
         else:
             analysis_id, timestamp, nic = self._analyser.record(
                 self._nics[index_combobox],
-                lambda _: self._subpub.publish(self.PUBLISH_TOPIC_ADAPTER_DATA_SNIFFING, (analysis_id, timestamp, nic))
+                lambda _: self._subpub.publish(self.PUBLISH_TOPIC_RAWDATA_SNIFFINGDATA, (analysis_id, timestamp, nic))
             )
-            self._subpub.publish(self.PUBLISH_TOPIC_STATUSSNIFFINGDATA, False if analysis_id is None else True)
+            self._subpub.publish(self.PUBLISH_TOPIC_RAWDATA_STATUSSNIFFINGDATA, False if analysis_id is None else True)
 
 
     #for str_combobox : string
@@ -64,15 +68,15 @@ class Model:
         else:
             analysis_id, timestamp, nic = self._analyser.record(
                 str_combobox,
-                lambda _: self._subpub.publish(self.PUBLISH_TOPIC_ADAPTER_DATA_SNIFFING, (analysis_id, timestamp, nic))
+                lambda _: self._subpub.publish(self.PUBLISH_TOPIC_RAWDATA_SNIFFINGDATA, (analysis_id, timestamp, nic))
             )
-            self._subpub.publish(self.PUBLISH_TOPIC_STATUSSNIFFINGDATA, False if analysis_id is None else True)
+            self._subpub.publish(self.PUBLISH_TOPIC_RAWDATA_STATUSSNIFFINGDATA, False if analysis_id is None else True)
 
 
     def snifferStopSniffData(self):
         #Sniffer: Stop Sniffing
         self._analyser.stop_record()
-        self._subpub.publish(self.PUBLISH_TOPIC_STATUSSNIFFINGDATA, False)
+        self._subpub.publish(self.PUBLISH_TOPIC_RAWDATA_STATUSSNIFFINGDATA, False)
 
 
     #for index_combobox : int
@@ -80,18 +84,18 @@ class Model:
         #Sniffer: Start Sniffing
         analysis_id, timestamp, nic = self._analyser.record(
                 self._nics[index_combobox],
-                lambda _: self._subpub.publish(self.PUBLISH_TOPIC_ADAPTER_DATA_SNIFFING, (analysis_id, timestamp, nic))
+                lambda _: self._subpub.publish(self.PUBLISH_TOPIC_RAWDATA_SNIFFINGDATA, (analysis_id, timestamp, nic))
             )
-        self._subpub.publish(self.PUBLISH_TOPIC_STATUSSNIFFINGDATA, False if analysis_id is None else True)
+        self._subpub.publish(self.PUBLISH_TOPIC_RAWDATA_STATUSSNIFFINGDATA, False if analysis_id is None else True)
 
     #for str_combobox : string
     def snifferStartSniffData(self, str_combobox:str):
         #Sniffer: Start Sniffing
         analysis_id, timestamp, nic = self._analyser.record(
                 str_combobox,
-                lambda _: self._subpub.publish(self.PUBLISH_TOPIC_ADAPTER_DATA_SNIFFING, (analysis_id, timestamp, nic))
+                lambda _: self._subpub.publish(self.PUBLISH_TOPIC_RAWDATA_SNIFFINGDATA, (analysis_id, timestamp, nic))
             )
-        self._subpub.publish(self.PUBLISH_TOPIC_STATUSSNIFFINGDATA, False if analysis_id is None else True)
+        self._subpub.publish(self.PUBLISH_TOPIC_RAWDATA_STATUSSNIFFINGDATA, False if analysis_id is None else True)
         
     def viewAnalyzedInit(self):
         temp = self._settings_view.initializeState()
@@ -134,46 +138,3 @@ class Model:
         raw_data = packet_data[4]
         temp = self._analyser.parse_one_packet(raw_data)
         self._subpub.publish(self.PUBLISH_TOPIC_ANALYZEDDATA_SHOW, temp)
-
-#   analyzing a package
-#         temp = self._storage.get_analysis_by_id(analysis_id)
-#         self._subpub.publish(self.PUBLISH_TOPIC_ANALYZEDDATA_SHOW, temp)
-
-    #analysing ?????
-    def get_analysis_by_id(self, analysis_id: str): # -> Tuple[str, str, str] | None:
-        pass
-
-
-#kann vermutlich alles fliegen
-#---------------------------------------------------------------------------------------
-
-
-    # #Storage: store collected sniffer data
-    # def storageStoreSniffingData(self):
-    #     pass
-
-    # #Storage: Save Data to file
-    # def storageSaveSniffingData(self, filename):
-    #     self._storage.saveSniffingData(filename)
-
-    # #Storage: Open file
-    # def storageOpenSniffingData(self, filename):
-    #     self._storage.openSniffingData(filename)
-
-    # #return reference to view settings
-    # def settingsViewSetWindow(self, window_changed):
-    #     retWindow = self._settings_view.setWindow(window_changed)
-    #     self._subpub.publish(self.PUBLISH_TOPIC_WINDOW_CONFIG, retWindow)
-
-
-    # def settingsViewInitializeWindow(self):
-    #     pass
-
-    # def storageIsDataSaved(self):
-    #     return self._storage.isStorageSaved()
-    
-    # def storageClearStorage(self):
-    #     self._storage.clearStorage()
-
-    # def storageIsStorageEmpty(self):
-    #     return self._storage.isStorageEmpty()

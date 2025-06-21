@@ -1,11 +1,9 @@
 from PyQt6.QtWidgets import QFileDialog, QMessageBox
-from Model import Model
-from View import ViewV2
 
 class MenuController():
 
     #Constructor for MenuController
-    def __init__(self, view: ViewV2, model: Model):
+    def __init__(self, view, model):
         self._view = view
         self._model = model
 

@@ -1,3 +1,6 @@
+#Outdated - same functions in adapter_rawdata
+
+
 class TerminalStatusAdapter:
 
     #constructor for SnifferAdapter

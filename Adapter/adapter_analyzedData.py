@@ -2,7 +2,7 @@
 
 class AdapterAnalyzedData():
     
-    #constructor for AdapterState
+    #constructor for AdapterAnalyzedData
     def __init__(self, view, model, subpub):
         
         self._view = view

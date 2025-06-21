@@ -1,13 +1,11 @@
 from PyQt6.QtWidgets import QMessageBox
 from PyQt6.QtGui import QIcon
 from PyQt6.QtCore import QSize, QModelIndex
-from View.view import View
-from Model.model import Model
 import os
 
 class ControllerHello():
 
-    def __init__(self, view: View, model: Model):
+    def __init__(self, view, model):
         self._view = view
         self._model = model
 

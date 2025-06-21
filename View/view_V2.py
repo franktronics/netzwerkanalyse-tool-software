@@ -1,7 +1,7 @@
 from PyQt6.QtWidgets import QMainWindow, QMenu, QMenuBar, QToolBar, QPushButton, QStatusBar, QLabel, QStackedWidget
 from PyQt6.QtGui import QAction
 from View.view_RawDataV2 import ViewRawDataV2
-from View.viewStatistics import ViewStatistics
+from View.view_statistics import ViewStatistics
 from View.view_analyzedData import ViewAnalyzedData
 from View.view_hello import ViewHello
 
