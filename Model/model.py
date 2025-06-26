@@ -127,7 +127,7 @@ class Model:
         self._storage.delete_analysis(analysis_id)
 
     #get packages from analysis
-    def get_packets_by_analysis_id(self, analysis_id: str): # -> list[Tuple[str, str, str, str, str, str]] | None:
+    def get_packets_by_analysis_id(self, analysis_id: int): # -> list[Tuple[str, str, str, str, str, str]] | None:
         temp = self._storage.get_packets_by_analysis_id(analysis_id)
         self._subpub.publish(self.PUBLISH_TOPIC_ANALYZEDDATA_PACKAGE, temp)
 

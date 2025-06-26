@@ -3,7 +3,7 @@ from PyQt6.QtGui import QIcon
 from PyQt6.QtCore import QSize, QModelIndex
 import os
 
-class ControllerAnalyzedData():
+class ControllerAnalyzedData:
 
     def __init__(self, view, model):
         self._view = view

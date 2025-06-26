@@ -1,4 +1,2 @@
-from .ports import NetworkAnalyserPort
+from .ports import NetworkAnalyserPort, DatabasePort
 from .adapters import NetworkAnalyser
-from .ports import DatabasePort
-from .adapters import DatabaseAdapter

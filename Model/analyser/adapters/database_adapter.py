@@ -1,5 +1,6 @@
+from sqlite3 import Connection, Cursor
 from typing import Tuple
-
+import os
 from ..ports import DatabasePort
 import sqlite3
 from datetime import datetime
@@ -8,8 +9,8 @@ from datetime import datetime
 class DatabaseAdapter(DatabasePort):
     def __init__(self, db_path: str = "packets.db"):
         self.db_path = db_path
-        self.conn = None
-        self.cursor = None
+        self.conn: Connection | None = None
+        self.cursor: Cursor | None = None
 
     def insert_analysis(self, nic: str) -> tuple[int, str, str] | None:
         try:
@@ -31,7 +32,7 @@ class DatabaseAdapter(DatabasePort):
             self.conn.rollback()
             return None
 
-    def insert_packet(self, src_mac: str, dst_mac: str, raw_data: bytes, analysis_id: str) -> int | None:
+    def insert_packet(self, src_mac: str, dst_mac: str, raw_data: bytes, analysis_id: int) -> int | None:
         try:
             timestamp = datetime.now().isoformat()
 
@@ -45,11 +46,13 @@ class DatabaseAdapter(DatabasePort):
         except sqlite3.Error as e:
             print(f"Error inserting packet: {e}")
             self.conn.rollback()
+            return None
         except Exception as e:
             print(f"Unexpected error: {e}")
             self.conn.rollback()
+            return None
 
-    def get_analysis_by_id(self, analysis_id: str) -> Tuple[str, str, str] | None:
+    def get_analysis_by_id(self, analysis_id: int) -> Tuple[int, str, str] | None:
         try:
             self.cursor.execute(
                 "SELECT id, timestamp, nic FROM analysis WHERE id = ?", (analysis_id,)
@@ -57,14 +60,15 @@ class DatabaseAdapter(DatabasePort):
             return self.cursor.fetchone()
         except sqlite3.Error as e:
             print(f"Error fetching analysis: {e}")
+            self.conn.rollback()
             return None
         except Exception as e:
             print(f"Unexpected error: {e}")
+            self.conn.rollback()
             return None
 
-    def get_packets_by_analysis_id(self, analysis_id: str) -> list[Tuple[str, str, str, str, str, str]] | None:
-        self.init_db()
-        try: 
+    def get_packets_by_analysis_id(self, analysis_id: int) -> list[Tuple[int, str, str, str, str, str]] | None:
+        try:
             self.cursor.execute(
                 """SELECT id, timestamp, src_mac, dst_mac, raw_data, analysis_id
                 FROM packets
@@ -76,38 +80,28 @@ class DatabaseAdapter(DatabasePort):
             return rows if rows else None
         except sqlite3.Error as e:
             print(f"Error fetching packets: {e}")
+            self.conn.rollback()
             return None
         except Exception as e:
             print(f"Unexpected error: {e}")
-            return None
-        finally:
-            self.close_db()
-
-    def get_packet_by_id(self, packet_id: str) -> Tuple[str, str, str, str, str, str] | None:
-        self.init_db()
-        try:
-            self.cursor.execute(
-                "SELECT id, timestamp, src_mac, dst_mac, raw_data, analysis_id FROM packets WHERE id = ?", (packet_id,)
-            )
-            return self.cursor.fetchone()
-        except sqlite3.Error as e:
-            print(f"Error fetching packet by ID: {e}")
-            return None
-        except Exception as e:
-            print(f"Unexpected error: {e}")
+            self.conn.rollback()
             return None
 
-    def get_all_analyses(self) -> list[Tuple[str, str, str]] | None:
-        self.init_db()
+    def get_all_analyses(self) -> list[Tuple[int, str, str]] | None:
         try:
             self.cursor.execute("SELECT id, timestamp, nic FROM analysis ORDER BY timestamp DESC")
             return self.cursor.fetchall()
-        finally:
-            self.close_db()
+        except sqlite3.Error as e:
+            print(f"Error fetching all analyses: {e}")
+            self.conn.rollback()
+            return None
+        except Exception as e:
+            print(f"Unexpected error: {e}")
+            self.conn.rollback()
+            return None
 
-    def delete_analysis(self, analysis_id) -> bool:      
+    def delete_analysis(self, analysis_id: int) -> bool:
         try:
-            self.init_db()
             self.cursor.execute(
                 "DELETE FROM packets WHERE analyse_id = ?", (analysis_id,)
             )
@@ -124,16 +118,6 @@ class DatabaseAdapter(DatabasePort):
             print(f"Unexpected error: {e}")
             self.conn.rollback()
             return False
-        finally:
-            self.close_db()
-
-    def init_db(self) -> None:
-        try:
-            self._connect()
-            self._initialize_database()
-        except sqlite3.Error as e:
-            print(f"Error initializing database: {e}")
-            raise
 
     def close_db(self) -> None:
         try:
@@ -163,6 +147,23 @@ class DatabaseAdapter(DatabasePort):
         except Exception as e:
             print(f"Unexpected error during database closing: {e}")
 
+    def init_db(self) -> None:
+        n_try = 0
+        try:
+            self._connect()
+            self._initialize_database()
+        except sqlite3.Error as e:
+            if n_try >= 1:
+                return
+            print(f"SQLite error initializing database: {e}")
+            print("Retrying database initialization...")
+            n_try += 1
+            self.close_db()
+            # delete db file if it exists
+            if os.path.exists(self.db_path):
+                os.remove(self.db_path)
+            self.init_db()
+
     def _connect(self):
         """Establish database connection"""
         try:
@@ -174,7 +175,7 @@ class DatabaseAdapter(DatabasePort):
             print(f"Error connecting to database: {e}")
             raise
 
-    def _initialize_database(self):
+    def _initialize_database(self) -> bool:
         """Initialize database if tables don't exist"""
         try:
             self.cursor.execute("""
@@ -209,10 +210,15 @@ class DatabaseAdapter(DatabasePort):
                     )
                 ''')
                 self.conn.commit()
+            return True
         except sqlite3.Error as e:
-            print(f"Error initializing database: {e}")
+            print(f"SQLite error initializing database: {e}")
             self.conn.rollback()
-            raise
+            return False
+        except Exception as e:
+            print(f"Unexpected error during database initialization: {e}")
+            self.conn.rollback()
+            return False
 
     def __del__(self):
         """Destructor to ensure database connection is closed"""

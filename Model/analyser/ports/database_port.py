@@ -20,7 +20,7 @@ class DatabasePort(ABC):
         pass
 
     @abstractmethod
-    def insert_packet(self, src_mac: str, dst_mac: str, raw_data: bytes, analysis_id: str) -> int | None:
+    def insert_packet(self, src_mac: str, dst_mac: str, raw_data: bytes, analysis_id: int) -> int | None:
         """
         Insert a new packet record.
 
@@ -36,7 +36,7 @@ class DatabasePort(ABC):
         pass
 
     @abstractmethod
-    def get_analysis_by_id(self, analysis_id: str) -> Tuple[str, str, str] | None:
+    def get_analysis_by_id(self, analysis_id: int) -> Tuple[int, str, str] | None:
         """
         Get analysis record by ID.
 
@@ -49,7 +49,7 @@ class DatabasePort(ABC):
         pass
 
     @abstractmethod
-    def get_packets_by_analysis_id(self, analysis_id: str) -> list[Tuple[str, str, str, str, str, str]] | None:
+    def get_packets_by_analysis_id(self, analysis_id: int) -> list[Tuple[int, str, str, str, str, str]] | None:
         """
         Get all packets associated with a specific analysis ID.
 
@@ -62,20 +62,7 @@ class DatabasePort(ABC):
         pass
 
     @abstractmethod
-    def get_packet_by_id(self, packet_id: str) -> Tuple[str, str, str, str, str, str] | None:
-        """
-        Get a packet record by its ID.
-
-        Args:
-            packet_id (str): ID of the packet to retrieve
-
-        Returns:
-            tuple: Packet record as (id, timestamp, src_mac, dst_mac, raw_data, analysis_id) or None if not found
-        """
-        pass
-
-    @abstractmethod
-    def get_all_analyses(self) -> list[Tuple[str, str, str]] | None:
+    def get_all_analyses(self) -> list[Tuple[int, str, str]] | None:
         """
         Get all analysis records.
 
@@ -85,7 +72,7 @@ class DatabasePort(ABC):
         pass
 
     @abstractmethod
-    def delete_analysis(self, analysis_id) -> bool:
+    def delete_analysis(self, analysis_id: int) -> bool:
         """
         Delete an analysis and all its associated packets.
 
@@ -98,9 +85,9 @@ class DatabasePort(ABC):
         pass
 
     @abstractmethod
-    def init_db(self) -> None:
+    def close_db(self) -> None:
         """
-        Initialize the database and create necessary tables.
+        Safely close the database connection.
 
         Returns:
             None
@@ -108,9 +95,9 @@ class DatabasePort(ABC):
         pass
 
     @abstractmethod
-    def close_db(self) -> None:
+    def init_db(self) -> None:
         """
-        Safely close the database connection.
+        Initialize the database and create necessary tables.
 
         Returns:
             None
