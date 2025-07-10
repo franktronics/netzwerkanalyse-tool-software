@@ -62,7 +62,6 @@ class AnalyserCore:
         """
         if self.running:
             return None
-        self.database.init_db()
         analysis_id, timestamp, nic = self.database.insert_analysis(nic)
         self.alaysis_id = analysis_id
         if self.alaysis_id is None:
@@ -95,7 +94,6 @@ class AnalyserCore:
             self.storing_thread.join()
             self.storing_thread = None
 
-        self.database.close_db()
         self.socket_service.close()
 
         self.alaysis_id = None

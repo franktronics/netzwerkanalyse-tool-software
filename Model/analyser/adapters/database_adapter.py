@@ -87,6 +87,21 @@ class DatabaseAdapter(DatabasePort):
             self.conn.rollback()
             return None
 
+    def get_packet_by_id(self, packet_id: int) -> Tuple[int, str, str, str, str, str] | None:
+        try:
+            self.cursor.execute(
+                "SELECT id, timestamp, src_mac, dst_mac, raw_data, analysis_id FROM packets WHERE id = ?", (packet_id,)
+            )
+            return self.cursor.fetchone()
+        except sqlite3.Error as e:
+            print(f"Error fetching packet by ID: {e}")
+            self.conn.rollback()
+            return None
+        except Exception as e:
+            print(f"Unexpected error: {e}")
+            self.conn.rollback()
+            return None
+
     def get_all_analyses(self) -> list[Tuple[int, str, str]] | None:
         try:
             self.cursor.execute("SELECT id, timestamp, nic FROM analysis ORDER BY timestamp DESC")

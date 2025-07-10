@@ -15,7 +15,7 @@ class ViewV2(QMainWindow):
         super().__init__()
 
         self.setWindowTitle("Netzwerk-Analyse Tool")
-        self.resize(600,400)
+        self.resize(1200, 800)
 
         self._createmenuBar()
         self.setMenuBar(self._menuBar)

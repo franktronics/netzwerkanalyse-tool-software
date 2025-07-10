@@ -146,6 +146,7 @@ class MenuController():
     #Action for MenuItem-Action Exit
     def _actionPerformedExit(self):
         self._model.snifferStopSniffData()
+        self._model.close()
         self._view.close()
 
     

@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from .database_port import DatabasePort
 from typing import Optional, Callable
+from ..core import Participant
 
 
 class NetworkAnalyserPort(ABC):
@@ -68,3 +69,16 @@ class NetworkAnalyserPort(ABC):
         Returns:
             dict: Parsed packet data structured as a dictionary.
         """
+
+    @abstractmethod
+    def get_participants_map(self, packets: list[tuple[int, str, str, str, str, str]]) -> list[Participant]:
+        """
+        Build a map of participants from the recorded packets.
+
+        Args:
+            packets (list[tuple[int, str, str, str, str, str]]): List of packets to analyze.
+
+        Returns:
+            list[Participant]: List of Participant objects representing the network structure.
+        """
+        pass

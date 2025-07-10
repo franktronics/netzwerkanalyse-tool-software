@@ -1,7 +1,7 @@
-from ..core import AnalyserCore, ParserCore
+from ..core import AnalyserCore, ParserCore, Participant, MapBuilderCore
+from ..ports import DatabasePort, NetworkAnalyserPort
 from .database_adapter import DatabaseAdapter
 from .file_manager_adapter import FileManagerAdapter
-from ..ports import DatabasePort, NetworkAnalyserPort
 from typing import Optional, Callable
 
 
@@ -35,3 +35,6 @@ class NetworkAnalyser(NetworkAnalyserPort):
 
     def parse_one_packet(self, packet: bytes) -> dict[str, dict[str, any]]:
         return self._parser_core.parse_one_packet(packet)
+
+    def get_participants_map(self, packets: list[tuple[int, str, str, str, str, str]]) -> list[Participant]:
+        return MapBuilderCore.build_map(packets)

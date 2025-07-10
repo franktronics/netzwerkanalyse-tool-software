@@ -32,7 +32,11 @@ class Model:
     def initialize(self):
         self.viewAnalyzedInit()
         self.snifferDetectNic()
+        self._storage.init_db()
         #self.get_all_analyses()
+
+    def close(self):
+        self._storage.close_db()
 
 
     def snifferDetectNic(self):
@@ -133,7 +137,7 @@ class Model:
 
 
     #analyze package
-    def get_packet_dict(self, packet_id: str):
+    def get_packet_dict(self, packet_id: int):
         packet_data = self._storage.get_packet_by_id(packet_id)
         raw_data = packet_data[4]
         temp = self._analyser.parse_one_packet(raw_data)
