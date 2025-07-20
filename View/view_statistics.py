@@ -38,3 +38,12 @@ class ViewStatistics(QWidget):
         layout.addWidget(self.network_canvas)
 
         self.setLayout(layout)
+
+
+    def addData(self, data):
+        #todo
+        #self.clear()
+        pass
+
+    #Todo: clear-Methode in networkCanvas
+    #addData(): füllen: Auswahl der einzelnen Informationen

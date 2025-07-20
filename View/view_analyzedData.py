@@ -5,6 +5,7 @@ from PyQt6.QtWidgets import QHeaderView
 import os
 from View.components.tableTemplateV1 import TableTemplateV1
 from View.components.treeTemplateV1 import TreeTemplateV1
+from View.view_statistics import ViewStatistics
 
 class ViewAnalyzedData(QWidget):
     #Constructor for centerApplication ViewRawData
@@ -18,6 +19,7 @@ class ViewAnalyzedData(QWidget):
         self.STATEDATABASE = 1
         self.STATEPACKAGE = 2
         self.STATESHOW = 3
+        self.STATESTATISTICS = 4
 
 
         self._initUI()
@@ -36,9 +38,9 @@ class ViewAnalyzedData(QWidget):
         self.lab_databaseSelection.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.layoutH_lab.addWidget(self.lab_databaseSelection)
 
-        self.lab_packageSelection = QLabel("Select the package")
-        self.lab_packageSelection.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.layoutH_lab.addWidget(self.lab_packageSelection)
+        self.lab_packageAnalysis = QLabel("package analysis")
+        self.lab_packageAnalysis.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.layoutH_lab.addWidget(self.lab_packageAnalysis)
 
         #icon refresh nics
         self.btnRefreshTable = QPushButton()
@@ -60,12 +62,21 @@ class ViewAnalyzedData(QWidget):
 
         self.tree_package = TreeTemplateV1()
         #self.tree_package.showTestData()
+
+        self.graphic_statistics = ViewStatistics()
         
         
         #Buttons
         self.layoutH_btn = QHBoxLayout()
         self.btn_back = QPushButton("Back")
         self.layoutH_btn.addWidget(self.btn_back)
+
+        self.btn_nvm = QPushButton()
+        self.btn_nvm.setDisabled(True)
+        self.layoutH_btn.addWidget(self.btn_nvm)
+
+        self.btn_statistics = QPushButton("Graphical Analysis")
+        self.layoutH_btn.addWidget(self.btn_statistics)
 
         self.btn_next = QPushButton("Next")
         self.layoutH_btn.addWidget(self.btn_next)
@@ -87,6 +98,8 @@ class ViewAnalyzedData(QWidget):
             self._state_package()
         elif state == self.STATESHOW:
             self._state_show()
+        elif state == self.STATESTATISTICS:
+            self._state_statistics()
 
     
     def _state_database(self):
@@ -99,7 +112,7 @@ class ViewAnalyzedData(QWidget):
                     padding: 4px;
                 }
             """)
-        self.lab_packageSelection.setStyleSheet("""
+        self.lab_packageAnalysis.setStyleSheet("""
                 QLabel {
                     background-color: none;
                     color: black;
@@ -111,6 +124,8 @@ class ViewAnalyzedData(QWidget):
         #Buttons
         self.btn_back.setDisabled(True)
         self.btn_next.setDisabled(False)
+        self.btn_statistics.setDisabled(False)
+        self.btn_nvm.setDisabled(True)
 
         self._replace_dataWidget(self.table_database.getTable())
         
@@ -124,7 +139,7 @@ class ViewAnalyzedData(QWidget):
                     padding: 4px;
                 }
             """)
-        self.lab_packageSelection.setStyleSheet("""
+        self.lab_packageAnalysis.setStyleSheet("""
                 QLabel {
                     background-color: grey;
                     color: black;
@@ -136,6 +151,8 @@ class ViewAnalyzedData(QWidget):
         #Buttons
         self.btn_back.setDisabled(False)
         self.btn_next.setDisabled(False)
+        self.btn_statistics.setDisabled(True)
+        self.btn_nvm.setDisabled(True)
 
         self._replace_dataWidget(self.table_packages.getTable())
 
@@ -149,7 +166,7 @@ class ViewAnalyzedData(QWidget):
                     padding: 4px;
                 }
             """)
-        self.lab_packageSelection.setStyleSheet("""
+        self.lab_packageAnalysis.setStyleSheet("""
                 QLabel {
                     background-color: green;
                     color: black;
@@ -161,8 +178,38 @@ class ViewAnalyzedData(QWidget):
         #Buttons
         self.btn_back.setDisabled(False)
         self.btn_next.setDisabled(True)
+        self.btn_statistics.setDisabled(True)
+        self.btn_nvm.setDisabled(True)
 
         self._replace_dataWidget(self.tree_package.getTree())
+
+
+    def _state_statistics(self):
+        #Labels
+        self.lab_databaseSelection.setStyleSheet("""
+                QLabel {
+                    background-color: green;
+                    color: black;
+                    border: 1px solid black;
+                    padding: 4px;
+                }
+            """)
+        self.lab_packageAnalysis.setStyleSheet("""
+                QLabel {
+                    background-color: green;
+                    color: black;
+                    border: 1px solid black;
+                    padding: 4px;
+                }
+            """)
+        
+        #Buttons
+        self.btn_back.setDisabled(False)
+        self.btn_next.setDisabled(True)
+        self.btn_statistics.setDisabled(True)
+        self.btn_nvm.setDisabled(True)
+
+        self._replace_dataWidget(self.graphic_statistics)
 
     def _state_default(self):
         #Labels
@@ -174,7 +221,7 @@ class ViewAnalyzedData(QWidget):
                     padding: 4px;
                 }
             """)
-        self.lab_packageSelection.setStyleSheet("""
+        self.lab_packageAnalysis.setStyleSheet("""
                 QLabel {
                     background-color: none;
                     color: black;
@@ -186,6 +233,8 @@ class ViewAnalyzedData(QWidget):
         #Buttons
         self.btn_back.setDisabled(False)
         self.btn_next.setDisabled(False)
+        self.btn_statistics.setDisabled(False)
+        self.btn_nvm.setDisabled(True)
 
 
     def _replace_dataWidget(self, new_widget):
@@ -194,7 +243,7 @@ class ViewAnalyzedData(QWidget):
         for i in range(layout.count()):
             item = layout.itemAt(i)
             widget = item.widget()
-            if isinstance(widget, (QTableView, QTreeView)):
+            if isinstance(widget, (QTableView, QTreeView, ViewStatistics)):
                 # Alte Tabelle entfernen
                 layout.removeWidget(widget)
                 widget.setParent(None)
@@ -209,6 +258,7 @@ class ViewAnalyzedData(QWidget):
 
     def loadPackages(self, data):
         self.table_packages.addData(data)
+        self.graphic_statistics.addData(data)
 
     def showAnalysis(self, data: dict[str, dict[str, any]]):
         self.tree_package.showData(data)

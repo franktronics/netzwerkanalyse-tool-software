@@ -18,6 +18,7 @@ class Settings_View():
         self.STATEDATABASE = 1
         self.STATEPACKAGE = 2
         self.STATESHOW = 3
+        self.STATESTATISTICS = 4
         self.state = self.STATEDATABASE
 
         self._state_database()
@@ -70,12 +71,26 @@ class Settings_View():
             self._state_default()
         elif self.state == self.STATEDATABASE:
             pass
-        elif self.state == self.STATEPACKAGE:
+        elif self.state == self.STATEPACKAGE or self.state == self.STATESTATISTICS:
             self._state_database()
         elif self.state == self.STATESHOW:
             self._state_package()
 
         return self.retState()
+    
+
+    def show_statistics(self):
+        if self.state == self.STATEDEFAULT:
+            pass
+        elif self.state == self.STATEDATABASE:
+            self._state_statistics()
+        elif self.state == self.STATEPACKAGE:
+            pass
+        elif self.state == self.STATESHOW:
+            pass
+
+        return self.retState()
+
 
     
     def _state_database(self):
@@ -89,6 +104,9 @@ class Settings_View():
 
     def _state_default(self):
         self.state = self.STATEDEFAULT
+
+    def _state_statistics(self):
+        self.state = self.STATESTATISTICS
 
     def retState(self) -> int:
         return self.state

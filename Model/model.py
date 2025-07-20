@@ -111,6 +111,11 @@ class Model:
             self.get_all_analyses()
         self._subpub.publish(self.PUBLISH_TOPIC_ANALYZEDDATA_STATE, temp)
 
+    def viewAnalyzedStatistics(self):
+        if self.retViewAnalyzedState() == self._settings_view.STATEDATABASE:
+            temp = self._settings_view.show_statistics()
+            self._subpub.publish(self.PUBLISH_TOPIC_ANALYZEDDATA_STATE, temp)
+
     def viewAnalyzedBack(self):
         temp = self._settings_view.back()
         if temp == self._settings_view.STATEDATABASE:

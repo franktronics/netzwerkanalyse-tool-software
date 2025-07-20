@@ -24,6 +24,7 @@ class ControllerAnalyzedData:
         # self._view.getMenuActionOpen().triggered.connect(self._actionPerformedOpen)
         self._view._viewanalyzedData.btn_back.released.connect(self._actionPerformedBack)
         self._view._viewanalyzedData.btn_next.released.connect(self._actionPerformedNext)
+        self._view._viewanalyzedData.btn_statistics.released.connect(self._actionPerformedStatistics)
         self._view._viewanalyzedData.table_database.getTable().doubleClicked.connect(self._actionPerformedDatabaseDoubleClick)
         self._view._viewanalyzedData.table_database.getTable().clicked.connect(self._actionPerformedDatabaseSingleClick)
         self._view._viewanalyzedData.table_packages.getTable().doubleClicked.connect(self._actionPerformedPackagesDoubleClick)
@@ -66,6 +67,21 @@ class ControllerAnalyzedData:
                 packet_id: int = int(self._view._viewanalyzedData.table_packages.item(self.rowSelected_packages, 0))
                 self._model.get_packet_dict(packet_id)
                 self.rowSelected_packages = None
+            else:
+                self._error()
+
+
+    def _actionPerformedStatistics(self):
+        if self._model.retViewAnalyzedState() == self._model._settings_view.STATEDATABASE:
+            if self.rowSelected_database is not None:
+                self._model.viewAnalyzedStatistics()
+                print("self._model.get_packets_by_analysis_id(analysis_id)")
+                print(str("database: ") + str(self.rowSelected_database))
+
+                analysis_id = int(self._view._viewanalyzedData.table_database.item(self.rowSelected_database, 0))
+                self._model.get_packets_by_analysis_id(analysis_id)
+                self.rowSelected_database = None
+            
             else:
                 self._error()
             
