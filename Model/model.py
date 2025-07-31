@@ -18,6 +18,7 @@ class Model:
     PUBLISH_TOPIC_ANALYZEDDATA_ANALYSIS = "analyzeddata_analysis"
     PUBLISH_TOPIC_ANALYZEDDATA_PACKAGE = "analyzeddata_package"
     PUBLISH_TOPIC_ANALYZEDDATA_SHOW = "analyzeddata_show"
+    PUBLISH_TOPIC_ANALYZEDDATA_STATS = "analyzeddata_stats"
 
     def __init__(self, subpub):
         
@@ -138,7 +139,9 @@ class Model:
     #get packages from analysis
     def get_packets_by_analysis_id(self, analysis_id: int): # -> list[Tuple[str, str, str, str, str, str]] | None:
         temp = self._storage.get_packets_by_analysis_id(analysis_id)
+        temp_stat = self._analyser.get_participants_map(temp)
         self._subpub.publish(self.PUBLISH_TOPIC_ANALYZEDDATA_PACKAGE, temp)
+        self._subpub.publish(self.PUBLISH_TOPIC_ANALYZEDDATA_STATS, temp_stat)
 
 
     #analyze package

@@ -262,3 +262,6 @@ class ViewAnalyzedData(QWidget):
 
     def showAnalysis(self, data: dict[str, dict[str, any]]):
         self.tree_package.showData(data)
+
+    def statsAnalysis(self, data):
+        self.graphic_statistics.addData(data)

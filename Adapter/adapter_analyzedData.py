@@ -13,6 +13,7 @@ class AdapterAnalyzedData():
         self._sub_analyzedData_analysis = None
         self._sub_analyzedData_package = None
         self._sub_analyzedData_show = None
+        self._sub_analyzedData_stats = None
 
     #Subscribe PUBLISH_TOPIC_ANALYZEDDATA_STATE
     def subscribeModel_StateAnalysis(self):
@@ -79,3 +80,19 @@ class AdapterAnalyzedData():
     #Receiving a message after publisher publishes value
     def onNextshowAnalysis(self, item: int):
         self._view.analyzedData_showAnalysis(item)
+
+
+    #Subscribe PUBLISH_TOPIC_ANALYZEDDATA_STATS
+    def subscribeModel_statsAnalysis(self):
+        print("AdapterState: Subscribe PUBLISH_TOPIC_ANALYZEDDATA_STATS")
+        self._sub_analyzedData_stats = self._subpub.subscribe(self._model.PUBLISH_TOPIC_ANALYZEDDATA_STATS, self.onNextstatsAnalysis)
+
+    #Unsubscribe 
+    def unsubscribeModel_statsAnalysis(self):
+        if self._sub_analyzedData_stats is not None:
+            print("AdapterState: Unsubscribe PUBLISH_TOPIC_ANALYZEDDATA_STATS")
+            self._subpub.unsubscribe(self._model.PUBLISH_TOPIC_ANALYZEDDATA_STATS, self._sub_analyzedData_stats)
+
+    #Receiving a message after publisher publishes value
+    def onNextstatsAnalysis(self, item: int):
+        self._view.analyzedData_statsAnalysis(item)

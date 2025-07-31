@@ -292,3 +292,6 @@ class ViewV2(QMainWindow):
 
     def analyzedData_showAnalysis(self, data):
         self._viewanalyzedData.showAnalysis(data)
+
+    def analyzedData_statsAnalysis(self, data):
+        self._viewanalyzedData.statsAnalysis(data)
