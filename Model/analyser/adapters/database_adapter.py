@@ -67,14 +67,8 @@ class DatabaseAdapter(DatabasePort):
             self.conn.rollback()
             return None
 
-<<<<<<< HEAD:analyser/adapters/database_adapter.py
-    def get_packets_by_analysis_id(self, analysis_id: str) -> list[Tuple[str, str, str, str, str, str]] | None:
-        self.init_db()
-        try: 
-=======
     def get_packets_by_analysis_id(self, analysis_id: int) -> list[Tuple[int, str, str, str, str, str]] | None:
         try:
->>>>>>> merge:Model/analyser/adapters/database_adapter.py
             self.cursor.execute(
                 """SELECT id, timestamp, src_mac, dst_mac, raw_data, analysis_id
                 FROM packets
@@ -86,21 +80,12 @@ class DatabaseAdapter(DatabasePort):
             return rows if rows else None
         except sqlite3.Error as e:
             print(f"Error fetching packets: {e}")
-<<<<<<< HEAD:analyser/adapters/database_adapter.py
-            return None
-        except Exception as e:
-            print(f"Unexpected error: {e}")
-            return None
-        finally:
-            self.close_db()
-=======
             self.conn.rollback()
             return None
         except Exception as e:
             print(f"Unexpected error: {e}")
             self.conn.rollback()
             return None
->>>>>>> merge:Model/analyser/adapters/database_adapter.py
 
     def get_packet_by_id(self, packet_id: int) -> Tuple[int, str, str, str, str, str] | None:
         try:
