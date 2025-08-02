@@ -167,25 +167,25 @@ class NetworkCanvas(QGraphicsView):
                 if arrow_count == 2:
                     self._add_reverse_arrow(from_id, to_id)
 
-    def add_connection(self, if_from, id_to):
+    def add_connection(self, id_from, id_to):
         """Add a connection between two participants"""
         # Check if participants exist
-        if if_from not in self.participants or id_to not in self.participants:
+        if id_from not in self.participants or id_to not in self.participants:
             return
 
         # Add edge to NetworkX graph
-        self.graph.add_edge(if_from, id_to)
+        self.graph.add_edge(id_from, id_to)
 
         # Check if exact connection exists
-        if (if_from, id_to) in self.connections:
+        if (id_from, id_to) in self.connections:
             return
 
         # Check if reverse connection exists
-        reverse_key = (id_to, if_from)
+        reverse_key = (id_to, id_from)
         if reverse_key in self.connections:
-            self._add_reverse_arrow(id_to, if_from)
+            self._add_reverse_arrow(id_to, id_from)
         else:
-            self._create_new_connection(if_from, id_to)
+            self._create_new_connection(id_from, id_to)
 
         self._update_layout()
 
@@ -353,3 +353,24 @@ class NetworkCanvas(QGraphicsView):
             self.setCursor(Qt.CursorShape.ArrowCursor)
         else:
             super().mouseReleaseEvent(event)
+
+    def clear_canvas(self):
+        """Clear all participants and connections from the canvas"""
+        # Remove all participant graphics from scene
+        for participant in self.participants.values():
+            self.scene.removeItem(participant['pc_item'])
+            self.scene.removeItem(participant['name_text'])
+            self.scene.removeItem(participant['id_text'])
+
+        # Remove all connection graphics from scene
+        for connection in self.connections.values():
+            self.scene.removeItem(connection['line'])
+            for arrow in connection['arrows']:
+                self.scene.removeItem(arrow)
+
+        # Clear data structures
+        self.participants.clear()
+        self.connections.clear()
+
+        # Reset NetworkX graph
+        self.graph.clear()
