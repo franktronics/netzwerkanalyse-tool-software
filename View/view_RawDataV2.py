@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QWidget, QVBoxLayout, QPushButton, QHBoxLayout, QTableView, QTabWidget, QToolBar, QMainWindow, QComboBox
+from PyQt6.QtWidgets import QWidget, QVBoxLayout, QPushButton, QHBoxLayout, QTableView, QTabWidget, QToolBar, QMainWindow, QComboBox, QFrame
 from PyQt6.QtGui import QIcon, QStandardItemModel, QStandardItem
 from PyQt6.QtCore import QSize
 from PyQt6.QtWidgets import QHeaderView
@@ -17,7 +17,7 @@ class ViewRawDataV2(QWidget):
     def _initUI(self):
         
         base_path = os.path.dirname(__file__)
-        icon_path = os.path.join(base_path, "images")
+        self.icon_path = os.path.join(base_path, "images")
 
         layout = QVBoxLayout()
 
@@ -30,15 +30,24 @@ class ViewRawDataV2(QWidget):
         # self.table.horizontalHeader().setSectionResizeMode(0, QHeaderView.ResizeMode.ResizeToContents)
         # self.table.horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeMode.ResizeToContents)
 
+        self.container = QFrame()
+        self.container.setObjectName("borderFrame")
+        self.container.setFrameShape(QFrame.Shape.NoFrame)
+        self.container.setLineWidth(2)
+        self.container.setStyleSheet("#borderFrame { border: 2px solid transparent; border-radius: 5px; margin: 2pt;}")
+
+        conlayout = QVBoxLayout(self.container)
+        
         #Create table
         self.table = RawDataTable()
-        layout.addWidget(self.table)
+        conlayout.addWidget(self.table)
+        layout.addWidget(self.container)
 
         #Start/Stop-Button
         #icon start sniffing
         layoutH = QHBoxLayout()
         self._btnStartSniffing = QPushButton()
-        icon_path_temp = os.path.join(icon_path, "start-icon.png")
+        icon_path_temp = os.path.join(self.icon_path, "start-icon.png")
         icon = QIcon(icon_path_temp)
 
         self._btnStartSniffing.setToolTip("Start Sniffing Network Data")
@@ -51,7 +60,7 @@ class ViewRawDataV2(QWidget):
 
         #icon stop sniffing
         self._btnStopSniffing = QPushButton()
-        icon_path_temp = os.path.join(icon_path, "stop-icon.png")
+        icon_path_temp = os.path.join(self.icon_path, "stop-icon.png")
         icon = QIcon(icon_path_temp)
 
         self._btnStopSniffing.setToolTip("Stop Sniffing Network Data")
@@ -70,7 +79,7 @@ class ViewRawDataV2(QWidget):
 
         #icon refresh nics
         self._btnRefreshNic = QPushButton()
-        icon_path_temp = os.path.join(icon_path, "refresh-icon.png")
+        icon_path_temp = os.path.join(self.icon_path, "refresh-icon.png")
         icon = QIcon(icon_path_temp)
 
         self._btnRefreshNic.setIcon(icon)
@@ -98,6 +107,10 @@ class ViewRawDataV2(QWidget):
         layout.addLayout(layoutH)
         self.setLayout(layout)
 
+        self.activateSniffing()
+        # self.setStyleSheet('border-style: solid')
+        # self.setStyleSheet('border-color: green')
+
 
     # Add sniffingdata to table
     # def addSniffingData(self, item):
@@ -112,3 +125,29 @@ class ViewRawDataV2(QWidget):
     def updateNics(self, nics):
         self._ComBoxadapter.clear()
         self._ComBoxadapter.addItems(nics)
+
+    def activateSniffing(self):
+        icon_path_temp = os.path.join(self.icon_path, "start-icon.png")
+        icon = QIcon(icon_path_temp)
+        self._btnStartSniffing.setIcon(icon)
+        self._btnStartSniffing.setEnabled(True)
+
+        icon_path_temp = os.path.join(self.icon_path, "stop-icon_notactivated.png")
+        icon = QIcon(icon_path_temp)
+        self._btnStopSniffing.setIcon(icon)
+        self._btnStopSniffing.setEnabled(False)
+
+        self.container.setStyleSheet("#borderFrame { border: 2px solid transparent; border-radius: 5px; margin: 2pt;}")
+
+    def deactivateSniffing(self):
+        icon_path_temp = os.path.join(self.icon_path, "start-icon_notactivated.png")
+        icon = QIcon(icon_path_temp)
+        self._btnStartSniffing.setIcon(icon)
+        self._btnStartSniffing.setEnabled(False)
+
+        icon_path_temp = os.path.join(self.icon_path, "stop-icon.png")
+        icon = QIcon(icon_path_temp)
+        self._btnStopSniffing.setIcon(icon)
+        self._btnStopSniffing.setEnabled(True)
+
+        self.container.setStyleSheet("#borderFrame { border: 2px solid #55DD33; border-radius: 5px; margin: 2pt;}")

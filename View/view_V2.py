@@ -30,6 +30,8 @@ class ViewV2(QMainWindow):
         self._createStatusBar()
         self.setStatusBar(self.statusBar)
 
+        
+
         self.show()
     
 
@@ -295,3 +297,9 @@ class ViewV2(QMainWindow):
 
     def analyzedData_statsAnalysis(self, data):
         self._viewanalyzedData.statsAnalysis(data)
+
+    def activateSniffing(self):
+        self._viewRawData.activateSniffing()
+
+    def deactivateSniffing(self):
+        self._viewRawData.deactivateSniffing()

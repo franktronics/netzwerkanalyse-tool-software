@@ -65,12 +65,8 @@ class AdapterRawData():
 
     def onNext_RawData_StatusSniffingData(self, item):
         #Receiving a message after publisher publishes value
-        # if item is True:
-        #     self._view.getTerminalBtnSniff().setText("Stop Sniffing")
-        #     self._view.getTerminalBtnSniff().setToolTip("Stop Sniffing Network Data")
-        #     self._view.getTerminalBtnSniff().setStatusTip("Stop Sniffing Network Data")
-        # elif item is False:
-        #     self._view.getTerminalBtnSniff().setText("Start Sniffing")
-        #     self._view.getTerminalBtnSniff().setToolTip("Start Sniffing Network Data")
-        #     self._view.getTerminalBtnSniff().setStatusTip("Start Sniffing Network Data")
-        pass
+        if item is True:
+            self._view.deactivateSniffing()
+        elif item is False:
+            self._view.activateSniffing()
+        
