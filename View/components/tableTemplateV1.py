@@ -15,8 +15,6 @@ class TableTemplateV1():
         self.table.setEditTriggers(QTableView.EditTrigger.NoEditTriggers)
         self.table.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
         self.table.verticalHeader().setVisible(False)
-        self.table.setStyleSheet("QFrame { border: 1px solid red; border-radius: 5px; }")
-
 
     def getTable(self):
         return self.table

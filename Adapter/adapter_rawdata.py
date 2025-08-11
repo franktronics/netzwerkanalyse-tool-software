@@ -15,7 +15,7 @@ class AdapterRawData():
     #Subscribe PUBLISH_TOPIC_RAWDATA_SNIFFINGDATA
     def subscribeModel_RawData_SniffingData(self):
         print("AdapterRawData: Subscribe PUBLISH_TOPIC_RAWDATA_SNIFFINGDATA")
-        self._sub_rawdata_sniffing = self._subpub.subscribe(self._model.PUBLISH_TOPIC_ADAPTER_DATA_SNIFFING, self.onNext_RawData_SniffingData)
+        self._sub_rawdata_sniffing = self._subpub.subscribe(self._model.PUBLISH_TOPIC_RAWDATA_SNIFFINGDATA, self.onNext_RawData_SniffingData)
 
 
     #Unsubscribe PUBLISH_TOPIC_RAWDATA_SNIFFINGDATA
