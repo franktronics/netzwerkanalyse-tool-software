@@ -37,4 +37,5 @@ class NetworkAnalyser(NetworkAnalyserPort):
         return self._parser_core.parse_one_packet(packet)
 
     def get_participants_map(self, packets: list[tuple[int, str, str, str, str, str]]) -> list[Participant]:
-        return MapBuilderCore.build_map(packets)
+        map_builder = MapBuilderCore()
+        return map_builder.build_map(packets)

@@ -85,6 +85,7 @@ class NetworkCanvas(QGraphicsView):
         # Create text for name (top)
         name_text = QGraphicsTextItem(name)
         name_text.setFont(QFont("Arial", 10, QFont.Weight.Bold))
+        name_text.setDefaultTextColor(QColor(0, 128, 0))  # Set green color
 
         # Create text for ID (bottom)
         id_text = QGraphicsTextItem(id)
@@ -119,7 +120,7 @@ class NetworkCanvas(QGraphicsView):
             # Use spring layout for multiple nodes
             positions = nx.spring_layout(
                 self.graph,
-                k=2,  # Optimal distance between nodes
+                k=50,  # Optimal distance between nodes
                 iterations=50,  # Number of iterations for positioning
                 scale=self.layout_scale,  # Scale the layout
                 center=(0, 0)  # Center the layout
@@ -134,7 +135,7 @@ class NetworkCanvas(QGraphicsView):
                 # Update position
                 participant['position'] = position
                 participant['pc_item'].setPos(position)
-                participant['name_text'].setPos(position.x() + 10, position.y() - 25)
+                participant['name_text'].setPos(position.x() + 10, position.y() - 15)
                 participant['id_text'].setPos(position.x() + 10, position.y() + self.pc_size + 5)
 
         # Update connection positions
